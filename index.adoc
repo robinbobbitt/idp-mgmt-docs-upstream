@@ -1,3 +1,9 @@
 
 [#idp-mgmt-docs]
 = Product Documentation for identity configuration management for Kubernetes Technology Preview
+
+TODO
+
+See the following documentation:
+
+- xref:./requirements.adoc#requirements-and-recommendations[Requirements and recommendations]
