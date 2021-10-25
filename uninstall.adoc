@@ -51,7 +51,7 @@ the _Options_ menu and selecting *Uninstall operator*.
 
 If the identity configuration management custom resource is not being removed, remove any potential remaining artifacts by running the clean-up script. 
 
-.. Copy the following script into a file:
+. Copy the following script into a file:
 +
 ----
 #!/bin/bash
