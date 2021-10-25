@@ -9,11 +9,9 @@ The identity configuration management for Kubernetes operator is installed with 
 
 - By default, the identity configuration management components are installed on worker nodes of your OpenShift Container Platform cluster without any additional configuration. You can install the identity configuration management onto worker nodes by using the OpenShift Container Platform OperatorHub web console interface, or by using the OpenShift Container Platform CLI.
 
-- If you have configured your OpenShift Container Platform cluster with infrastructure nodes, you can install the identity configuration management onto those infrastructure nodes by using the OpenShift Container Platform CLI with additional resource parameters. Not all engine components have infrastructure node support, so some worker nodes are still required when installing identity configuration management for Kubernetes on infrastructure nodes. See the _Installing the 
+//Check on this - I think IDP can run on all infra 
+- If you have configured your OpenShift Container Platform cluster with infrastructure nodes, you can install the identity configuration management onto those infrastructure nodes by using the OpenShift Container Platform CLI with additional resource parameters. Not all components have infrastructure node support, so some worker nodes are still required when installing identity configuration management for Kubernetes on infrastructure nodes. See the _Installing the 
 identity configuration management on infrastructure node_ section for those details.
-
-- If you plan to import Kubernetes clusters that were not created by OpenShift Container Platform or 
-multicluster engine for Kubernetes, you will need to configure an image pull secret. For information on how to configure an image pull secret and other advanced configurations, see options in the link:./adv_config_install#advanced-config-engine[Advanced configuration] section of this documentation. 
 
 * <<connect-prerequisites,Prerequisites>>
 * <<confirm-ocp-installation,Confirm your OpenShift Container Platform installation>>
@@ -26,7 +24,7 @@ multicluster engine for Kubernetes, you will need to configure an image pull sec
 
 Before you install identity configuration management for Kubernetes, see the following requirements:
 
-* Your RedHat OpenShift Container Platform cluster must have access to the multicluster engine for Kubernetes operator in the OperatorHub catalog from the OpenShift Container Platform console. 
+* Your RedHat OpenShift Container Platform cluster must have access to the identity configuration management for Kubernetes operator in the OperatorHub catalog from the OpenShift Container Platform console. 
 
 * You need access to the https://catalog.redhat.com/software/containers/search?p=1&application_categories_list=Container%20Platform%20%2F%20Management[catalog.redhat.com].
 
@@ -46,7 +44,7 @@ Before you install identity configuration management for Kubernetes, see the fol
 
 ** You must have the OpenShift Container Platform Dedicated environment configured and running.
 
-** You must have `cluster-admin` authority to the OpenShift Container Platform Dedicated environment where you are installing the engine.
+** You must have `cluster-admin` authority to the OpenShift Container Platform Dedicated environment where you are installing the operator.
 
 [#confirm-ocp-installation]
 == Confirm your OpenShift Container Platform installation
@@ -112,14 +110,14 @@ identity configuration management for Kubernetes.
 +
 After the 
 identity configuration management for Kubernetes is created, the status for the operator is _Running_ on the _Installed Operators_ page. You can now use the services provided by the identity configuration management 
-for Kubernetes engine. 
+for Kubernetes. 
 
 [#installing-from-the-cli]
 == Installing from the OpenShift Container Platform CLI
 
 . Create a 
 identity configuration management for Kubernetes namespace where the operator requirements are contained. Run the following command, where `namespace` is the name for your 
-multicluster engine for Kubernetes engine namespace. The value for `namespace` might be referred to as _Project_ in the OpenShift Container Platform environment:
+identity configuration management for Kubernetes namespace. The value for `namespace` might be referred to as _Project_ in the OpenShift Container Platform environment:
 
 +
 [source,terminal]
@@ -128,7 +126,7 @@ oc create namespace <namespace>
 ----
 
 . Switch your project namespace to the one that you created. Replace `namespace` with the name of the 
-multicluster engine for Kubernetes engine namespace that you created in step 1.
+identity configuration management for Kubernetes namespace that you created in step 1.
 
 +
 [source,terminal]
@@ -207,7 +205,7 @@ Follow the procedures that are described in
 https://access.redhat.com/documentation/en-us/openshift_container_platform/4.8/html/machine_management/creating-infrastructure-machinesets[Creating infrastructure machine sets] in the OpenShift Container Platform documentation. Infrastructure nodes are configured with a Kubernetes `taint` and `label` to keep non-management workloads from running on them.
 
 To be compatible with the infrastructure node enablement provided by 
-multicluster engine for Kubernetes, ensure your infrastructure nodes have the following `taint` and `label` applied:
+identity configuration management for Kubernetes, ensure your infrastructure nodes have the following `taint` and `label` applied:
 
 [source,yaml]
 ----
