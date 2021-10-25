@@ -1,7 +1,7 @@
 [#install-on-disconnected-networks]
 = Install on disconnected networks
 
-You might need to install The identity configuration management for Kubernetes operator on Red Hat OpenShift Container Platform clusters that are not connected to the Internet. The procedure to install on a disconnected environment requires some of the same steps as the connected installation.
+You might need to install the identity configuration management for Kubernetes operator on Red Hat OpenShift Container Platform clusters that are not connected to the Internet. The procedure to install on a disconnected environment requires some of the same steps as the connected installation.
 
 You must download copies of the packages to access them during the installation, rather than accessing them directly from the network during the installation.
 
