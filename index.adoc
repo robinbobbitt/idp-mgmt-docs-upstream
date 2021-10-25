@@ -7,3 +7,4 @@ TODO
 See the following documentation:
 
 - xref:./requirements.adoc#requirements-and-recommendations[Requirements and recommendations]
+- xref:./install_connected.adoc#installing-while-connected-online[Installing while connected online]
