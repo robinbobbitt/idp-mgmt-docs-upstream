@@ -192,7 +192,7 @@ identity configuration management for Kubernetes and to any user credentials wit
 identity configuration management for Kubernetes.
 
 [#installing-on-infra-node]
-== Installing the on infrastructure nodes
+== Installing on infrastructure nodes
 
 An OpenShift Container Platform cluster can be configured to contain infrastructure nodes for running approved management components. Running components on infrastructure nodes avoids allocating OpenShift Container Platform subscription quota for the nodes that are running those management components.
 
