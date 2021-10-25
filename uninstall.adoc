@@ -9,9 +9,8 @@ The uninstall removes most operator components, excluding components such as cus
 == Prerequisite: Delete AuthRealm custom resources
 
 Before you uninstall the 
-identity configuration management for Kubernetes, you must delete all of the AuthRealm custom resources that are managed by the opearator. To avoid errors, delete all AuthRealm custom resources that exist, then try to uninstall again.
+identity configuration management for Kubernetes, you must delete all of the AuthRealm custom resources that are managed by the opearator. 
 
-+
 [#removing-a-identityconfiguration-instance-by-using-commands]
 == Removing resources by using commands
 
