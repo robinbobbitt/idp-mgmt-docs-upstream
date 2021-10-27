@@ -1,0 +1,29 @@
+[#getting-started]
+= Getting started
+
+* <<github-authentication,GitHub authentication>>
+* <<ldap-authentication,LDAP authentication>>
+
+[#introduction]
+== Introduction
+
+Coming: Architecture and intro.
+
+An identity configuration management operator configuration is composed of: 
+* A namespace custom resource in which the identity configuration will be defined
+* A managedclusterset custom resource which holds the clusters which must be part of the identity configuration.
+* A placement custom resource which defines the matching labels to select the clusters.
+* A managedclustersetbinding custom resource to bind that placement to the managedclusterset.
+* For each identity configuration provider, a secret custom resource containing the client ID and client secret to connect to the identity configuration provider.
+* An authrealm custom resource which defines the identiry configuration providers.
+
+
+Before you install identity configuration management for Kubernetes, review the system configuration requirements and settings at link:../install/requirements.adoc#requirements-and-recommendations[Requirements and recommendations]. With a supported version of OpenShift Container Platform installed and running on your hub cluster, you can proceed with link:../install/install_connected.adoc#installing-while-connected-online[Installing while connected online].
+
+
+[#github-authentication]
+== GitHub authentication
+
+
+[#ldap-authentication]
+== LDAP authentication
