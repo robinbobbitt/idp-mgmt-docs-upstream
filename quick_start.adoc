@@ -9,7 +9,8 @@
 
 Coming: Architecture and intro.
 
-An identity configuration management operator configuration is composed of: 
+An identity configuration management operator configuration is composed of:
+
 * A namespace custom resource in which the identity configuration will be defined
 * A managedclusterset custom resource which holds the clusters which must be part of the identity configuration.
 * A placement custom resource which defines the matching labels to select the clusters.
@@ -24,6 +25,30 @@ Before you install identity configuration management for Kubernetes, review the 
 [#github-authentication]
 == GitHub authentication
 
+To use GitHub based authentication, an OAuth application must be defined in GitHub.
+
+=== GitHub OAuth
+
+. Open a web browser and navigate to https://github.com, go to Settings > Developer Settings > OAuth Apps
+(The shortcut is https://github.com/settings/developers)
+. Add a *New OAuth App*.  Copy the Client ID and Client Secret values and save them. They will be needed later.
+. Fill in the *Application name* with something to help identify the owner and hub it will be used for.
+   NOTE: If you have more than one hub, each one will need its own entry.
+. Fill in *Homepage URL*  and *Authorization callback URL* with the OpenShift console URL.
+//TODO Fix this...not sure how user will generate the CRs
+   (NOTE: A little bit later we will correct the *Authorization callback URL* value once we have the correctly generated value.)
+. Click *Register Application*
+*NOTE:* Leave this web page open so you can quickly correct the *Authorization callback URL* value once you have the correct value.
+
+
+=== AuthRealm custom resource
+//TODO - need to decide on how to generate and doc CRs
+
 
 [#ldap-authentication]
 == LDAP authentication
+
+
+=== LDAP
+
+=== AuthRealm custom resource
