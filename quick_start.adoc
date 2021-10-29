@@ -9,7 +9,7 @@
 
 Coming: Architecture and intro.
 
-An identity configuration management operator configuration is composed of:
+An identity configuration management operator configuration is composed of: 
 
 * A namespace custom resource in which the identity configuration will be defined
 * A managedclusterset custom resource which holds the clusters which must be part of the identity configuration.
@@ -19,36 +19,99 @@ An identity configuration management operator configuration is composed of:
 * An authrealm custom resource which defines the identiry configuration providers.
 
 
-Before you install identity configuration management for Kubernetes, review the system configuration requirements and settings at link:../install/requirements.adoc#requirements-and-recommendations[Requirements and recommendations]. With a supported version of OpenShift Container Platform installed and running on your hub cluster, you can proceed with link:../install/install_connected.adoc#installing-while-connected-online[Installing while connected online].
 
 
 [#github-authentication]
 == GitHub authentication
 
-To use GitHub based authentication, an OAuth application must be defined in GitHub.
+To use GitHub based authentication, an OAuth application must be defined in GitHub.  
 
 === GitHub OAuth
 
 . Open a web browser and navigate to https://github.com, go to Settings > Developer Settings > OAuth Apps
 (The shortcut is https://github.com/settings/developers)
-. Add a *New OAuth App*.  Copy the Client ID and Client Secret values and save them. They will be needed later.
+. Add a *New OAuth App*.  Copy the Client ID and Client Secret values and save them. They will be needed later.  
 . Fill in the *Application name* with something to help identify the owner and hub it will be used for.
    NOTE: If you have more than one hub, each one will need its own entry.
-. Fill in *Homepage URL*  and *Authorization callback URL* with the OpenShift console URL.
+. Fill in *Homepage URL*  and *Authorization callback URL* with the OpenShift console URL.  
 //TODO Fix this...not sure how user will generate the CRs
    (NOTE: A little bit later we will correct the *Authorization callback URL* value once we have the correctly generated value.)
 . Click *Register Application*
 *NOTE:* Leave this web page open so you can quickly correct the *Authorization callback URL* value once you have the correct value.
 
 
-=== AuthRealm custom resource
+=== AuthRealm custom resource for GitHub
 //TODO - need to decide on how to generate and doc CRs
 
+
+
+[source,yaml]
+----
+apiVersion: identityconfig.identitatem.io/v1alpha1
+kind: AuthRealm
+metadata:
+  name: ${AUTHREALM_GITHUB_NAME}
+  namespace: ${AUTHREALM_GITHUB_NS}
+spec:
+  type: dex
+  routeSubDomain: ${ROUTE_SUBDOMAIN}
+  placementRef:
+    name: ${AUTHREALM_GITHUB_NAME}-placement
+  identityProviders:
+    - name: "${IDP_NAME}"
+      mappingMethod: add
+      type: GitHub
+      github:
+        clientID: "${GITHUB_APP_CLIENT_ID}"
+        clientSecret:
+          name: ${AUTHREALM_GITHUB_NAME}-client-secret
+        organizations:
+        ${GITHUB_APP_CLIENT_ORG_LINE}
+
+----
 
 [#ldap-authentication]
 == LDAP authentication
 
+=== LDAP 
 
-=== LDAP
+To use LDAP based authentication, an LDAP application must be running in your network.  
 
-=== AuthRealm custom resource
+=== AuthRealm custom resource for LDAP
+[source,yaml]
+----
+apiVersion: identityconfig.identitatem.io/v1alpha1
+kind: AuthRealm
+metadata:
+  name: ${AUTHREALM_LDAP_NAME}
+  namespace: ${AUTHREALM_LDAP_NS}
+spec:
+  type: dex
+  routeSubDomain: ${ROUTE_SUBDOMAIN}
+  placementRef:
+    name: ${AUTHREALM_LDAP_NAME}-placement
+  ldapExtraConfigs:
+    openldap:
+      baseDN: ${LDAP_USERSEARCH_BASEDN}
+      filter: "(objectClass=person)"
+  identityProviders:
+    - name: openldap
+      type: LDAP
+      mappingMethod: add
+      ldap:
+        url: ${LDAP_HOST}
+        insecure: true
+        bindDN: ${LDAP_BIND_DN}
+        bindPassword:
+          name: ${AUTHREALM_LDAP_NAME}-ldap-secret
+          namespace: ${AUTHREALM_LDAP_NS}
+        attributes:
+          id:
+            - DN
+          preferredUsername:
+            - mail
+          name:
+            - cn
+          email:
+            - mail
+----
