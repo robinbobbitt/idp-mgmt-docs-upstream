@@ -9,9 +9,7 @@ The identity configuration management for Kubernetes operator is installed with 
 
 - By default, the identity configuration management components are installed on worker nodes of your OpenShift Container Platform cluster without any additional configuration. You can install the identity configuration management onto worker nodes by using the OpenShift Container Platform OperatorHub web console interface, or by using the OpenShift Container Platform CLI.
 
-//Check on this - I think IDP can run on all infra 
-- If you have configured your OpenShift Container Platform cluster with infrastructure nodes, you can install the identity configuration management onto those infrastructure nodes by using the OpenShift Container Platform CLI with additional resource parameters. Not all components have infrastructure node support, so some worker nodes are still required when installing identity configuration management for Kubernetes on infrastructure nodes. See the _Installing the 
-identity configuration management on infrastructure node_ section for those details.
+- If you have configured your OpenShift Container Platform cluster with infrastructure nodes, you can install the identity configuration management onto those infrastructure nodes.
 
 * <<connect-prerequisites,Prerequisites>>
 * <<confirm-ocp-installation,Confirm your OpenShift Container Platform installation>>
@@ -28,17 +26,19 @@ Before you install identity configuration management for Kubernetes, see the fol
 
 * You need access to the https://catalog.redhat.com/software/containers/search?p=1&application_categories_list=Container%20Platform%20%2F%20Management[catalog.redhat.com].
 
-* OpenShift Container Platform version 4.6, or later, must be deployed in your environment, and you must be logged into with the OpenShift Container Platform CLI. OpenShift Container Platform version 4.6, or later, must be deployed in your environment, and you must be logged into with the OpenShift Container Platform CLI. See the following install documentation for OpenShift Container Platform: 
+* OpenShift Container Platform version 4.8.12, or later, due to https://bugzilla.redhat.com/show_bug.cgi?id=1969902[Bugzilla 1969902], must be deployed in your environment, and you must be logged into with the OpenShift Container Platform CLI. OpenShift Container Platform version 4.8.12, or later, must be deployed in your environment, and you must be logged into with the OpenShift Container Platform CLI. See the following install documentation for OpenShift Container Platform: 
 
   - https://access.redhat.com/documentation/en-us/openshift_container_platform/4.8/html/installing/index[OpenShift Container Platform version 4.8]
-  - https://access.redhat.com/documentation/en-us/openshift_container_platform/4.7/html/installing/index[OpenShift Container Platform version 4.7]
-  - https://docs.openshift.com/container-platform/4.6/welcome/index.html[OpenShift Container Platform version 4.6] 
+
+* OpenShift Container Platform version 4.9 is not currently supported.
 
 * Your OpenShift Container Platform command line interface (CLI) must be configured to run `oc` commands. See https://access.redhat.com/documentation/en-us/openshift_container_platform/4.8/html/cli_tools/openshift-cli-oc#cli-getting-started[Getting started with the CLI] for information about installing and configuring the OpenShift Container Platform CLI.
 
 * Your OpenShift Container Platform permissions must allow you to create a namespace.
 
 * You must have an Internet connection to access the dependencies for the operator.
+
+* You must have either https://open-cluster-management.github.io/mce-docs/[multicluster engine for Kubernetes 1.0 Technology Preview] or https://www.redhat.com/en/technologies/management/advanced-cluster-management[Red Hat Advanced Cluster Management for Kubernetes 2.4] installed.
 
 * To install in a OpenShift Container Platform Dedicated environment, see the following:
 
