@@ -1,8 +1,8 @@
 
 [#idp-mgmt-docs]
-= Product Documentation for identity configuration management for Kubernetes Technology Preview
+= The identity configuration management for Kubernetes documentation (Technology Preview)
 
-TODO
+The identity configuration management for Kubernetes is a set of software operators that enhance cluster fleet management. The identity configuration management for Kubernetes supports Red Hat OpenShift Container Platform and identity configuration management across clouds and data centers.
 
 See the following documentation:
 

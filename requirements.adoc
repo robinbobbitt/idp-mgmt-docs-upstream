@@ -17,7 +17,7 @@ The identity configuration management tech preview requires the https://open-clu
 
 Both the hub and managed clusters must be running OpenShift Container Platform at the levels supported by your chosen multicluster solution, multicluster engine or Advanced Cluster Management. Managed OpenShift offerings are not supported for this technology preview.
 
-*Note:* If using OpenShift Container Platform 4.8 for the hub, a minimum of 4.8.12 is required due to https://bugzilla.redhat.com/show_bug.cgi?id=1969902[Bugzilla 1969902].
+*Note:* Only OpenShift Container Platform 4.8 is supported for the hub, a minimum of 4.8.12 is required due to https://bugzilla.redhat.com/show_bug.cgi?id=1969902[Bugzilla 1969902]. OpenShift Container Platform 4.9 is not currently supported. 
 
 [#sizing-recommendations]
 == Sizing recommendations
