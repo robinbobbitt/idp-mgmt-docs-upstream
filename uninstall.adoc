@@ -46,6 +46,19 @@ When you use the RedHat OpenShift Container Platform console to uninstall, you r
 . Remove the _identity configuration management for Kubernetes_ operator by selecting 
 the _Options_ menu and selecting *Uninstall operator*.
 
+[#manual-cleanup-steps]
+== Manual cleanup steps
+
+Once the identity configuration management operator has been removed, some manual cleanup is required to completely remove all artifacts of the Technology Preview.
+
+. Delete a remaining clusterrole
+
+Run the following command on the hub cluster: 
+----
+oc delete clusterrole dex-operator-dexsso
+----
+
+
 [#troubleshoot-uninstall]
 == Troubleshooting Uninstall
 
