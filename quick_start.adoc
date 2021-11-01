@@ -8,17 +8,23 @@
 [#introduction]
 == Introduction
 
-Coming: Architecture and intro.
+Identity configuration management for Kubernetes is intended to allow you to quickly and easily configure OAuth authentication across your fleet of OpenShift clusters. Through the creation of an AuthRealm custom resource, you are able to specify one or more identity providers (such as GitHub or OpenLDAP) and a placement rule to indicate to which clusters the identity providers should apply. As more clusters are brought under management, their OAuth configuration will be automatically configured simply by matching the specified placement rule.
 
 An identity configuration management operator configuration is composed of: 
 
-* A namespace custom resource in which the identity configuration will be defined
-* A managedclusterset custom resource which holds the clusters which must be part of the identity configuration.
+* A namespace in which the identity configuration will be defined
+* A managedclusterset custom resource which holds the clusters which may be part of the identity configuration.
 * A placement custom resource which defines the matching labels to select the clusters.
 * A managedclustersetbinding custom resource to bind that placement to the managedclusterset.
 * For each identity configuration provider, a secret custom resource containing the client ID and client secret to connect to the identity configuration provider.
 * An authrealm custom resource which defines the identiry configuration providers.
 
+We will first walk through setting up your managed cluster set and placement, then prepare the configuration for your preferred identity provider(s).
+
+[#managed-cluster-set-and-placement]
+== Preparing your managed cluster set and placement
+
+TODO Chris Ahl please add details here, including bringing clusters under management of a hub.
 
 
 
