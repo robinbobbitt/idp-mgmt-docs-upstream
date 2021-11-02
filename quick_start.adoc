@@ -128,7 +128,7 @@ An entry under `identityProviders` has the following fields:
 
 === LDAP 
 
-The LDAP identity provider configuration allows email/password based authentication backed by a LDAP directory. To use LDAP based authentication, an LDAP application must be running in your network. During authentication, the LDAP directory is searched for an entry that matches the provided user name. If a single unique match is found, a simple bind is attempted using the distinguished name (DN) of the entry plus the provided password.
+The LDAP identity provider configuration allows email/password based authentication backed by a LDAP directory. During authentication, the LDAP directory is searched for an entry that matches the provided user name. If a single unique match is found, a simple bind is attempted using the distinguished name (DN) of the entry plus the provided password.
 
 === Setting up LDAP:
 
