@@ -26,6 +26,42 @@ We will first walk through setting up your managed cluster set and placement, th
 
 TODO Chris Ahl please add details here, including bringing clusters under management of a hub.
 
+[#creating-auth-realm]
+== Creating your AuthRealm
+
+The AuthRealm custom resoure specifies a combination of one or more https://docs.openshift.com/container-platform/4.8/authentication/understanding-identity-provider.html[identity providers] and a placement that determines to which managed clusters the identity provider(s) should be applied.
+
+An AuthRealm resource example is as follows:
+[source,yaml]
+----
+apiVersion: identityconfig.identitatem.io/v1alpha1
+kind: AuthRealm
+metadata:
+  name: identity-config-developers
+  namespace: identity-config-authrealm
+spec:
+  identityProviders:
+  - github:
+      clientID: 41c30d83fd1b4774f871
+      clientSecret:
+        name: identitatem-github-client-secret
+      organizations:
+      - identitatem
+    mappingMethod: claim
+    name: identitatem-developers
+    type: GitHub
+  placementRef:
+    name: dev-clusters-placement
+  routeSubDomain: identitatem-devs
+  type: dex
+----
+The `identityProviders` list values directly correspond to OpenShift Container Platform's https://docs.openshift.com/container-platform/4.8/authentication/understanding-identity-provider.html[identity provider] configuration. Only GitHub and LDAP are supported in this Technology Preview. Take special note of the https://docs.openshift.com/container-platform/4.8/authentication/understanding-identity-provider.html#identity-provider-parameters_understanding-identity-provider[`mappingMethod`] field, which controls how mappings are established between the provider’s identities and User objects.
+
+The `placementRef` contains the name of the Placement custom resource located in the same namespace as the AuthRealm that will determine to which clusters this AuthRealm will apply.
+
+The `routeSubDomain` must be unique among all AuthRealms on the hub cluster and is used to form the Issuer URL of the intermediary OpenID connect server that is installed and configured automatically on the hub cluster by identity configuration management in order to achieve fleet-wide identity configuration. The managed clusters' cluster OAuth configurations connect to this OpenID connect server via the Issuer URL, rather than connecting to the desired identity provider directly.
+
+The `type` field must be set to `dex` for the Technology Preview. The Technology Preview leverages Dex under the covers as described above to achieve fleet-wide identity configuration.
 
 
 [#github-authentication]
