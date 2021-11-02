@@ -131,33 +131,37 @@ An entry under `identityProviders` has the following fields:
 To use LDAP based authentication, an LDAP application must be running in your network.  
 
 === AuthRealm custom resource for LDAP
+An example of an AuthRealm custom resource configured for the LDAP identity provider is provided below. Make note of the `identityProviders` field and the configuration of the `ldap` identity provider under it:
 [source,yaml]
 ----
 apiVersion: identityconfig.identitatem.io/v1alpha1
 kind: AuthRealm
 metadata:
-  name: ${AUTHREALM_LDAP_NAME}
-  namespace: ${AUTHREALM_LDAP_NS}
+  name: authrealm-ldap
+  namespace: authrealm-ldap-ns
 spec:
   type: dex
-  routeSubDomain: ${ROUTE_SUBDOMAIN}
+  routeSubDomain: identitatem-devs
   placementRef:
-    name: ${AUTHREALM_LDAP_NAME}-placement
+    name: authrealm-ldap-placement
   ldapExtraConfigs:
     openldap:
-      baseDN: ${LDAP_USERSEARCH_BASEDN}
+      baseDN: "dc=example,dc=com"
       filter: "(objectClass=person)"
   identityProviders:
     - name: openldap
       type: LDAP
       mappingMethod: add
       ldap:
-        url: ${LDAP_HOST}
+        url: a438af6d7959d448fb56138b20e2bbba-2094583330.us-east-1.elb.amazonaws.com:636
         insecure: true
-        bindDN: ${LDAP_BIND_DN}
+        bindDN: cn=Manager,dc=example,dc=com
+        ca:
+          name: authrealm-ldap-ca
+          namespace: authrealm-ldap-ns
         bindPassword:
-          name: ${AUTHREALM_LDAP_NAME}-ldap-secret
-          namespace: ${AUTHREALM_LDAP_NS}
+          name: authrealm-ldap-secret
+          namespace: authrealm-ldap-ns
         attributes:
           id:
             - DN
@@ -167,6 +171,21 @@ spec:
             - cn
           email:
             - mail
+
+----
+
+The `identityProviders` list contains the configurations for one or more identity providers. The example above contains a single identity provider (LDAP).
+An entry under `identityProviders` has the following fields:
+
+- `name` contains the unique name that is used to identify the identity provider.
+- `type` specifies the identity provider type and it is set to LDAP.
+- `mappingMethod` (add, claim or lookup) controls how mappings are established between this provider’s identities and User objects.
+- `ldap` contains the LDAP specific configurations:
+  * `url` contains the LDAP search parameters to use.
+  * `bindDN` contains an optional DN to bind with during the search phase.
+  * `bindPassword` contains reference to a secret by name containing a password to bind with during the search phase.
+  * `ca` contains reference to the secret containing a trusted Root CA file - file name and format: "ca.crt"
+*Note*: If the server uses self-signed certificates, include files with names "tls.crt" and "tls.key" (representing client certificate and key) in the same secret
 ----
 
 [#Command line interface]
