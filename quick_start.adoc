@@ -128,7 +128,15 @@ An entry under `identityProviders` has the following fields:
 
 === LDAP 
 
-To use LDAP based authentication, an LDAP application must be running in your network.  
+The LDAP identity provider configuration allows email/password based authentication backed by a LDAP directory. To use LDAP based authentication, an LDAP application must be running in your network. During authentication, the LDAP directory is searched for an entry that matches the provided user name. If a single unique match is found, a simple bind is attempted using the distinguished name (DN) of the entry plus the provided password.
+
+=== Setting up LDAP:
+
+There are multiple options available for setting up an LDAP directory. For example:
+
+- *OpenLDAP*: an open-source implementation of LDAP. The following article has information on hosting and deploying an OpenLDAP server: https://medium.com/ibm-garage/how-to-host-and-deploy-an-openldap-sever-in-openshift-affab06a4365
+- *Secure LDAP using Azure Active Directory*: The following tutorial describes the steps for setting up Secure LDAP with Azure Active Directory: https://docs.microsoft.com/en-us/azure/active-directory-domain-services/tutorial-configure-ldaps
+
 
 === AuthRealm custom resource for LDAP
 [source,yaml]
