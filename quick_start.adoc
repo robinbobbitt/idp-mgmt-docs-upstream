@@ -35,9 +35,10 @@ To use GitHub based authentication, an OAuth application must be defined in GitH
 
 === GitHub OAuth
 
-. Open a web browser and navigate to https://github.com, go to Settings > Developer Settings > OAuth Apps
-(The shortcut is https://github.com/settings/developers)
-. Add a *New OAuth App*.  Copy the Client ID and Client Secret values and save them. They will be needed later.  
+. The GitHub Oauth app can be created in your personal profile or in a Github organization that you are an administrator for.
+  * To create a GitHub Oauth app in your personal profile: Open a web browser and navigate to https://github.com, go to _Settings > Developer Settings > OAuth Apps_ (The shortcut is https://github.com/settings/developers)
+  * To create a GitHub Oauth app in a GitHub organization that you are an administrator for: Open a web browser and navigate to https://github.com/{organization_name}, go to _Settings > Developer Settings > OAuth Apps_ (The shortcut is https://github.com/{organization_name}/settings/developers)
+. Add a *New OAuth App*. In the new OAuth app, *Generate a new client secret*. Copy the Client ID and Client Secret values and save them. They will be needed later.  
 . Fill in the *Application name* with something to help identify the owner and hub it will be used for.
    NOTE: If you have more than one hub, each one will need its own entry.
 . Fill in *Homepage URL*  and *Authorization callback URL* with the OpenShift console URL.  
@@ -46,36 +47,45 @@ To use GitHub based authentication, an OAuth application must be defined in GitH
 . Click *Register Application*
 *NOTE:* Leave this web page open so you can quickly correct the *Authorization callback URL* value once you have the correct value.
 
-
 === AuthRealm custom resource for GitHub
-//TODO - need to decide on how to generate and doc CRs
-
-
-
+An example of an AuthRealm custom resource configured for the Github identity provider is provided below. Make note of the `identityProviders` field and the configuration of the `github` identity provider under it:
 [source,yaml]
 ----
 apiVersion: identityconfig.identitatem.io/v1alpha1
 kind: AuthRealm
 metadata:
-  name: ${AUTHREALM_GITHUB_NAME}
-  namespace: ${AUTHREALM_GITHUB_NS}
+  name: identity-config-developers
+  namespace: identity-config-authrealm
 spec:
-  type: dex
-  routeSubDomain: ${ROUTE_SUBDOMAIN}
-  placementRef:
-    name: ${AUTHREALM_GITHUB_NAME}-placement
   identityProviders:
-    - name: "${IDP_NAME}"
-      mappingMethod: add
-      type: GitHub
-      github:
-        clientID: "${GITHUB_APP_CLIENT_ID}"
-        clientSecret:
-          name: ${AUTHREALM_GITHUB_NAME}-client-secret
-        organizations:
-        ${GITHUB_APP_CLIENT_ORG_LINE}
-
+  - github:
+      clientID: 41c30d83fd1b4774f871
+      clientSecret:
+        name: identitatem-github-client-secret
+      organizations:
+      - identitatem
+    mappingMethod: claim
+    name: identitatem-developers
+    type: GitHub
+  placementRef:
+    name: dev-clusters-placement
+  routeSubDomain: identitatem-devs
+  type: dex
 ----
+
+The `identityProviders` list contains the configurations for one or more identity providers. The example above contains a single identity provider (GitHub).
+An entry under `identityProviders` has the following fields:
+
+- `name` contains the unique name that is used to identify the identity provider.
+- `type` specifies the identity provider type and it is set to GitHub.
+- `mappingMethod` (add, claim or lookup) controls how mappings are established between this provider’s identities and User objects.
+- `github` contains the GitHub specific configurations:
+  * `clientID` contains the client ID of a registered GitHub OAuth application.
+  * `clientSecret` contains a reference to an OpenShift Container Platform Secret object containing the client secret issued by GitHub. 
+  * `organizations` contains a list of organizations to authenticate the user against. This field can be left blank to skip authentication against specific GitHub organizations. If organizations are specified in the config then the user must be a member of at least one of the specified orgs. +
+*Note*: If the GitHub OAuth application is not owned by an organization specified in `organizations`, an organization owner must grant third-party access to use this option. This can be done in two ways:
+    ** by the GitHub organization's administrator from the GitHub organization settings, 
+    ** or, during the first GitHub login when the user will be presented with a UI to explicitly request access to the GitHub organization. The request will flow to the GitHub organization's administrator for approval and the user will only be able to login after the request for access is approved.
 
 [#ldap-authentication]
 == LDAP authentication
