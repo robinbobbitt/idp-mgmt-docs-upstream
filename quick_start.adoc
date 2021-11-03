@@ -187,6 +187,7 @@ An entry under `identityProviders` has the following fields:
   * `url` contains the LDAP host and optional port of the LDAP server
   * `bindDN` contains an optional DN to bind with during the search phase.
   * `bindPassword` contains an optional reference to a secret by name containing a password to bind with during the search phase.
+*Note*: bindDN and bindPassword need to be provided if the LDAP server requires authentication for search.
   * `ca` contains reference to the secret containing a trusted Root CA file - file name and format: "ca.crt"
 *Note*: If the server uses self-signed certificates, include files with names "tls.crt" and "tls.key" (representing client certificate and key) in the same secret
 - `attributes` maps LDAP attributes to identities
