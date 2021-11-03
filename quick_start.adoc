@@ -1,19 +1,22 @@
 [#getting-started]
 = Getting started
 
+* <<managed-cluster-set-and-placement,Preparing your managed cluster set and placement>>
+* <<creating-auth-realm,Creating your AuthRealm>>
 * <<github-authentication,GitHub authentication>>
 * <<ldap-authentication,LDAP authentication>>
 * <<command-line-interface,Command line interface>>
+
 
 [#introduction]
 == Introduction
 
 Identity configuration management for Kubernetes is intended to allow you to quickly and easily configure OAuth authentication across your fleet of OpenShift clusters. Through the creation of an AuthRealm custom resource, you are able to specify one or more identity providers (such as GitHub or OpenLDAP) and a placement rule to indicate to which clusters the identity providers should apply. As more clusters are brought under management, their OAuth configuration will be automatically configured simply by matching the specified placement rule.
 
-An identity configuration management operator configuration is composed of: 
+An identity configuration management operator configuration is composed of:
 
 * A namespace in which the identity configuration will be defined
-* A managedclusterset custom resource which holds the clusters which may be part of the identity configuration.
+* A managedclusterset custom resource which holds the managed clusters which may be part of the identity configuration.
 * A placement custom resource which defines the matching labels to select the clusters.
 * A managedclustersetbinding custom resource to bind that placement to the managedclusterset.
 * For each identity configuration provider, a secret custom resource containing the client ID and client secret to connect to the identity configuration provider.
@@ -24,7 +27,23 @@ We will first walk through setting up your managed cluster set and placement, th
 [#managed-cluster-set-and-placement]
 == Preparing your managed cluster set and placement
 
-TODO Chris Ahl please add details here, including bringing clusters under management of a hub.
+In order to add managed clusters to a managed cluster set, the managed clusters must be under management of the hub cluster.
+Follow these instructions if managed clusters need to be brought under management by the hub cluster:
+
+* Red Hat Advanced Cluster Management - https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.3/html/clusters/importing-a-target-managed-cluster-to-the-hub-cluster[Importing a target managed cluster to the hub cluster]
+* Red Hat multicluster engine operator - https://open-cluster-management.github.io/mce-docs/quick_start.html#getting-started[Importing a target managed cluster to the hub cluster]
+
+Once there are managed clusters, create a managed cluster set and managedclustersetbinding.  Then select the
+managed clusters that will be a part of the set:
+
+* Red Hat Advanced Cluster Management - https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.3/html/clusters/managedclustersets#placement-managed[creating and managing managedclustersets]
+* Red Hat multicluster engine operator - https://open-cluster-management.github.io/mce-docs/quick_start.html#getting-started[creating and managing managedclustersets]
+
+Now a placement can be created.  This will be used to determine which managed clusters in the managedclusterset will have the identity configuration applied.  See:
+
+* Red Hat Advanced Cluster Management - https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.3/html/clusters/managedclustersets#placement-managed[using managedclustersets with placement]
+* Red Hat multicluster engine operator - https://open-cluster-management.github.io/mce-docs/quick_start.html#getting-started[creating and managing managedclustersets]
+
 
 [#creating-auth-realm]
 == Creating your AuthRealm
@@ -67,17 +86,17 @@ The `type` field must be set to `dex` for the Technology Preview. The Technology
 [#github-authentication]
 == GitHub authentication
 
-To use GitHub based authentication, an OAuth application must be defined in GitHub.  
+To use GitHub based authentication, an OAuth application must be defined in GitHub.
 
 === GitHub OAuth
 
 . The GitHub Oauth app can be created in your personal profile or in a Github organization that you are an administrator for.
   * To create a GitHub Oauth app in your personal profile: Open a web browser and navigate to https://github.com, go to _Settings > Developer Settings > OAuth Apps_ (The shortcut is https://github.com/settings/developers)
   * To create a GitHub Oauth app in a GitHub organization that you are an administrator for: Open a web browser and navigate to https://github.com/{organization_name}, go to _Settings > Developer Settings > OAuth Apps_ (The shortcut is https://github.com/{organization_name}/settings/developers)
-. Add a *New OAuth App*. In the new OAuth app, *Generate a new client secret*. Copy the Client ID and Client Secret values and save them. They will be needed later.  
+. Add a *New OAuth App*. In the new OAuth app, *Generate a new client secret*. Copy the Client ID and Client Secret values and save them. They will be needed later.
 . Fill in the *Application name* with something to help identify the owner and hub it will be used for.
    NOTE: If you have more than one hub, each one will need its own entry.
-. Fill in *Homepage URL*  and *Authorization callback URL* with the OpenShift console URL.  
+. Fill in *Homepage URL*  and *Authorization callback URL* with the OpenShift console URL.
 //TODO Fix this...not sure how user will generate the CRs
    (NOTE: A little bit later we will correct the *Authorization callback URL* value once we have the correctly generated value.)
 . Click *Register Application*
@@ -117,18 +136,18 @@ An entry under `identityProviders` has the following fields:
 - `mappingMethod` (add, claim or lookup) controls how mappings are established between this provider’s identities and User objects.
 - `github` contains the GitHub specific configurations:
   * `clientID` contains the client ID of a registered GitHub OAuth application.
-  * `clientSecret` contains a reference to an OpenShift Container Platform Secret object containing the client secret issued by GitHub. 
+  * `clientSecret` contains a reference to an OpenShift Container Platform Secret object containing the client secret issued by GitHub.
   * `organizations` contains a list of organizations to authenticate the user against. This field can be left blank to skip authentication against specific GitHub organizations. If organizations are specified in the config then the user must be a member of at least one of the specified orgs. +
 *Note*: If the GitHub OAuth application is not owned by an organization specified in `organizations`, an organization owner must grant third-party access to use this option. This can be done in two ways:
-    ** by the GitHub organization's administrator from the GitHub organization settings, 
+    ** by the GitHub organization's administrator from the GitHub organization settings,
     ** or, during the first GitHub login when the user will be presented with a UI to explicitly request access to the GitHub organization. The request will flow to the GitHub organization's administrator for approval and the user will only be able to login after the request for access is approved.
 
 [#ldap-authentication]
 == LDAP authentication
 
-=== LDAP 
+=== LDAP
 
-To use LDAP based authentication, an LDAP application must be running in your network.  
+To use LDAP based authentication, an LDAP application must be running in your network.
 
 === AuthRealm custom resource for LDAP
 [source,yaml]
@@ -180,7 +199,7 @@ cm create authrealm --values <values.yaml>
 ----
 
 . Fill the template form
-+ 
++
 The template can be retreived by running:
 +
 [source,terminal]
@@ -194,7 +213,7 @@ Fill the template and save it as for example my-authrealm.yaml
 ----
 authRealm:
   # The name of the authrealm, can be override using the --name parameter
-  name: 
+  name:
   # The namespace where the authrealm must be created, can be override using the --namespace
   namespace:
   # The strategy type, only dex is supported, can be override using --type
@@ -209,7 +228,7 @@ authRealm:
   # For example:
   # matchLabels:
   #  authdeployment: east
-  matchLabels: 
+  matchLabels:
   # The managedClusterSet to link the placement to, can be override using --cluster-set
   managedClusterSet:
   # The managedClusterSetBinding, if not present then it will be created to bind
@@ -221,15 +240,15 @@ authRealm:
   # Example for github, this section will be copied into the authrealm CR.
   # Reference: https://github.com/openshift/api/blob/master/config/v1/0000_10_config-operator_01_oauth.crd.yaml#L80
   # The identity provider name
-  - name: my-github-idp 
+  - name: my-github-idp
     # The mappingMethod could be add, claim or lookup
-    mappingMethod: claim 
+    mappingMethod: claim
     # The identity provider type, here GitHub
-    type: GitHub 
+    type: GitHub
     # The github specifics
     github:
       # The client ID of the github app
-      clientID: 
+      clientID:
       # The github app secret, the cm-cli will create a local secret with it
       clientSecret:
       # Lists of GitHub Organizations (optionals)
@@ -254,12 +273,12 @@ authRealm:
       bindPassword:
     #....
   # Extra supported ldap configuration for the dex server
-  # 
+  #
   ldapExtraConfigs:
     # The name of the ldap identity provider
-    my-ldap-idp: 
+    my-ldap-idp:
       # The base Domain name
-      baseDN: 
+      baseDN:
       filter:
 ----
 
@@ -268,7 +287,7 @@ authRealm:
 +
 [source,terminal]
 ----
-cm create authrealm --values my-authrealm.yaml 
+cm create authrealm --values my-authrealm.yaml
 ----
 .. Create a file and then apply
 +
