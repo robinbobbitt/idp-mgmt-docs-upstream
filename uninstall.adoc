@@ -28,7 +28,7 @@ idp-mgmt-config      idp-mgmt-operator.v1.0.0     identity configuration managem
 ❯ oc delete sub idp-mgmt-operator -n idp-mgmt-config
 ----
 
-The CSV version shown here may be different.
+Note: The CSV version and operator namespace shown here may be different.
 
 [#deleting-the-components-by-using-the-console]
 == Deleting the components by using the console
