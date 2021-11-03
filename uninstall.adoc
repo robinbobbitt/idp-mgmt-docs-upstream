@@ -16,25 +16,19 @@ Note: When a cluster's authentication is no longer managed by identity configura
 [#removing-a-identityconfiguration-instance-by-using-commands]
 == Removing resources by using commands
 
-. If you have not already. ensure that your OpenShift Container Platform CLI is configured to run `oc` commands. See https://access.redhat.com/documentation/en-us/openshift_container_platform/4.8/html/cli_tools/openshift-cli-oc#cli-getting-started[Getting started with the OpenShift CLI] in the OpenShift Container Platform documentation for more information about how to configure the `oc` commands. 
+. If you have not already, ensure that your OpenShift Container Platform CLI is configured to run `oc` commands. See https://access.redhat.com/documentation/en-us/openshift_container_platform/4.8/html/cli_tools/openshift-cli-oc#cli-getting-started[Getting started with the OpenShift CLI] in the OpenShift Container Platform documentation for more information about how to configure the `oc` commands. 
 
-. Change to your project namespace by entering the following command. Replace _namespace_ with the name of your project namespace:
-+
+. Enter the following commands to locate and delete the identity configuration management `ClusterServiceVersion` in the namespace it is installed in:
 ----
-oc project <namespace>
-----
+❯ oc get csv -A
+NAMESPACE            NAME                         DISPLAY                                                           VERSION   REPLACES   PHASE
+idp-mgmt-config      idp-mgmt-operator.v1.0.0     identity configuration management for Kubernetes for Kubernetes   1.0.0                Succeeded
 
-. Enter the following commands to delete the identity configuration management `ClusterServiceVersion` in the namespace it is installed in:
-----
-❯ oc get csv
-NAME                         DISPLAY                                                           VERSION   REPLACES   PHASE
-idp-mgmt-operator.v1.0.0   identity configuration management for Kubernetes for Kubernetes   1.0.0                Succeeded
-
-❯ oc delete clusterserviceversion idp-mgmt-operator.v1.0.0
-❯ oc delete sub idp-mgmt-operator
+❯ oc delete clusterserviceversion idp-mgmt-operator.v1.0.0 -n idp-mgmt-config
+❯ oc delete sub idp-mgmt-operator -n idp-mgmt-config
 ----
 
-The CSV version shown here may be different.
+Note: The CSV version and operator namespace shown here may be different.
 
 [#deleting-the-components-by-using-the-console]
 == Deleting the components by using the console
