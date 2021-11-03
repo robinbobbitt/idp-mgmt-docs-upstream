@@ -181,33 +181,37 @@ There are multiple options available for setting up an LDAP directory. For examp
 
 
 === AuthRealm custom resource for LDAP
+An example of an AuthRealm custom resource configured for the LDAP identity provider is provided below. Make note of the `identityProviders` field and the configuration of the `ldap` identity provider under it:
 [source,yaml]
 ----
 apiVersion: identityconfig.identitatem.io/v1alpha1
 kind: AuthRealm
 metadata:
-  name: ${AUTHREALM_LDAP_NAME}
-  namespace: ${AUTHREALM_LDAP_NS}
+  name: authrealm-ldap
+  namespace: authrealm-ldap-ns
 spec:
   type: dex
-  routeSubDomain: ${ROUTE_SUBDOMAIN}
+  routeSubDomain: identitatem-devs
   placementRef:
-    name: ${AUTHREALM_LDAP_NAME}-placement
+    name: authrealm-ldap-placement
   ldapExtraConfigs:
     openldap:
-      baseDN: ${LDAP_USERSEARCH_BASEDN}
+      baseDN: "dc=example,dc=com"
       filter: "(objectClass=person)"
   identityProviders:
     - name: openldap
       type: LDAP
       mappingMethod: add
       ldap:
-        url: ${LDAP_HOST}
-        insecure: true
-        bindDN: ${LDAP_BIND_DN}
+        url: a438af6d7959d448fb56138b20e2bbba-2094583330.us-east-1.elb.amazonaws.com:636
+        insecure: false
+        bindDN: cn=Manager,dc=example,dc=com
+        ca:
+          name: authrealm-ldap-ca
+          namespace: authrealm-ldap-ns
         bindPassword:
-          name: ${AUTHREALM_LDAP_NAME}-ldap-secret
-          namespace: ${AUTHREALM_LDAP_NS}
+          name: authrealm-ldap-secret
+          namespace: authrealm-ldap-ns
         attributes:
           id:
             - DN
@@ -217,6 +221,30 @@ spec:
             - cn
           email:
             - mail
+
+----
+
+The `identityProviders` list contains the configurations for one or more identity providers. The example above contains a single identity provider (LDAP).
+An entry under `identityProviders` has the following fields:
+
+- `name` contains the unique name that is used to identify the identity provider.
+- `type` specifies the identity provider type and it is set to LDAP.
+- `mappingMethod` (add, claim or lookup) controls how mappings are established between this provider’s identities and User objects.
+- `ldapExtraConfigs` contains extra server configuration setting for LDAP, the key being the idp.name
+  * `baseDN` contains information to start the LDAP user search from. For example "cn=users,dc=example,dc=com"
+  * `filter` contains optional filter to apply when searching the directory. For example "(objectClass=person)"
+- `ldap` contains the LDAP specific configurations:
+  * `url` contains the LDAP host and optional port of the LDAP server
+  * `bindDN` contains an optional DN to bind with during the search phase.
+  * `bindPassword` contains an optional reference to a secret by name containing a password to bind with during the search phase.
+*Note*: bindDN and bindPassword need to be provided if the LDAP server requires authentication for search.
+  * `ca` contains reference to the secret containing a trusted Root CA file - file name and format: "ca.crt"
+*Note*: If the server uses self-signed certificates, include files with names "tls.crt" and "tls.key" (representing client certificate and key) in the same secret
+- `attributes` maps LDAP attributes to identities
+  * `id` is the list of attributes whose values should be used as the user ID. Required. First non-empty attribute is used. At least one attribute is required. If none of the liste attribute have a value, authentication fails. LDAP standard identity attribute is "dn"
+  * `preferredUsername` is the list of attributes whose values should be used as the preferred username. LDAP standard login attribute is "uid"
+  * `name` is the list of attributes whose values should be used as the display name. Optional. If unspecified, no display name is set for the identity. LDAP standard display name attribute is "cn"
+  * `email` is the list of attributes whose values should be used as the email address. Optional. If unspecified, no email is set for the identity 
 ----
 
 [#command-line-interface]
