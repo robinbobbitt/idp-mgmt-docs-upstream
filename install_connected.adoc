@@ -1,13 +1,11 @@
 [#installing-while-connected-online]
 = Installing while connected online
 
-The identity configuration management for Kubernetes operator is installed with Operator Lifecycle Manager, which manages the installation, upgrade, and removal of the components that encompass the identity configuration management for Kubernetes.
+The identity configuration management for Kubernetes operator is installed with Operator Lifecycle Manager, which manages the installation, upgrade, and removal of the components that encompass identity configuration management for Kubernetes.
 
 **Required access:** Cluster administrator
 
-**Important:** For OpenShift Container Platform Dedicated environment, you must have `cluster-admin` permissions. By default `dedicated-admin` role does not have the required permissions to create namespaces in the OpenShift Container Platform Dedicated environment. 
-
-- By default, the identity configuration management components are installed on worker nodes of your OpenShift Container Platform cluster without any additional configuration. You can install the identity configuration management onto worker nodes by using the OpenShift Container Platform OperatorHub web console interface, or by using the OpenShift Container Platform CLI.
+- By default, the identity configuration management components are installed on worker nodes of your OpenShift Container Platform cluster without any additional configuration. You can install the identity configuration management operator onto worker nodes by using the OpenShift Container Platform OperatorHub web console interface, or by using the OpenShift Container Platform CLI.
 
 - If you have configured your OpenShift Container Platform cluster with infrastructure nodes, you can install the identity configuration management onto those infrastructure nodes.
 
@@ -26,7 +24,7 @@ Before you install identity configuration management for Kubernetes, see the fol
 
 * You need access to the https://catalog.redhat.com/software/containers/search?p=1&application_categories_list=Container%20Platform%20%2F%20Management[catalog.redhat.com].
 
-* OpenShift Container Platform version 4.8.12, or later, due to https://bugzilla.redhat.com/show_bug.cgi?id=1969902[Bugzilla 1969902], must be deployed in your environment, and you must be logged into with the OpenShift Container Platform CLI. OpenShift Container Platform version 4.8.12, or later, must be deployed in your environment, and you must be logged into with the OpenShift Container Platform CLI. See the following install documentation for OpenShift Container Platform: 
+* OpenShift Container Platform version 4.8.12, or later, due to https://bugzilla.redhat.com/show_bug.cgi?id=1969902[Bugzilla 1969902], must be deployed in your environment, and you must be logged into with the OpenShift Container Platform CLI. See the following install documentation for OpenShift Container Platform: 
 
   - https://access.redhat.com/documentation/en-us/openshift_container_platform/4.8/html/installing/index[OpenShift Container Platform version 4.8]
 
@@ -40,18 +38,13 @@ Before you install identity configuration management for Kubernetes, see the fol
 
 * You must have either https://open-cluster-management.github.io/mce-docs/[multicluster engine for Kubernetes 1.0 Technology Preview] or https://www.redhat.com/en/technologies/management/advanced-cluster-management[Red Hat Advanced Cluster Management for Kubernetes 2.4] installed.
 
-* To install in a OpenShift Container Platform Dedicated environment, see the following:
-
-** You must have the OpenShift Container Platform Dedicated environment configured and running.
-
-** You must have `cluster-admin` authority to the OpenShift Container Platform Dedicated environment where you are installing the operator.
 
 [#confirm-ocp-installation]
 == Confirm your OpenShift Container Platform installation
 
 You must have a supported OpenShift Container Platform version, including the registry and storage services, installed and working. For more information about installing OpenShift Container Platform, see the OpenShift Container Platform documentation.
 
-. Verify that identity configuration management for Kubernetes operator is not already installed on your OpenShift Container Platform cluster. The identity configuration management for Kubernetes operator allows only one single installation on each OpenShift Container Platform cluster. Continue with the following steps if there is no installation.
+. Verify that the identity configuration management for Kubernetes operator is not already installed on your OpenShift Container Platform cluster. The identity configuration management for Kubernetes operator allows only one single installation on each OpenShift Container Platform cluster. Continue with the following steps if there is no installation.
 
 . To ensure that the OpenShift Container Platform cluster is set up correctly, access the OpenShift Container Platform web console with the following command:
 
