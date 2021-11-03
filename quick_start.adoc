@@ -185,10 +185,15 @@ An entry under `identityProviders` has the following fields:
   * `filter` contains optional filter to apply when searching the directory. For example "(objectClass=person)"
 - `ldap` contains the LDAP specific configurations:
   * `url` contains the LDAP host and optional port of the LDAP server
-  * `bindDN` contains DN for an application service account. The connector uses the bindDN and bindPW as credentials to search for users and groups. Not required if the LDAP server provides access for anonymous auth.
-  * `bindPassword` contains reference to a secret by name containing a password to bind with during the search phase.
+  * `bindDN` contains an optional DN to bind with during the search phase.
+  * `bindPassword` contains an optional reference to a secret by name containing a password to bind with during the search phase.
   * `ca` contains reference to the secret containing a trusted Root CA file - file name and format: "ca.crt"
 *Note*: If the server uses self-signed certificates, include files with names "tls.crt" and "tls.key" (representing client certificate and key) in the same secret
+- `attributes` maps LDAP attributes to identities
+  * `id` is the list of attributes whose values should be used as the user ID. Required. First non-empty attribute is used. At least one attribute is required. If none of the liste attribute have a value, authentication fails. LDAP standard identity attribute is "dn"
+  * `preferredUsername` is the list of attributes whose values should be used as the preferred username. LDAP standard login attribute is "uid"
+  * `name` is the list of attributes whose values should be used as the display name. Optional. If unspecified, no display name is set for the identity. LDAP standard display name attribute is "cn"
+  * `email` is the list of attributes whose values should be used as the email address. Optional. If unspecified, no email is set for the identity 
 ----
 
 [#Command line interface]
