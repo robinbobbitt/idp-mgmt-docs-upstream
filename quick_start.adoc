@@ -154,7 +154,7 @@ spec:
       mappingMethod: add
       ldap:
         url: a438af6d7959d448fb56138b20e2bbba-2094583330.us-east-1.elb.amazonaws.com:636
-        insecure: true
+        insecure: false
         bindDN: cn=Manager,dc=example,dc=com
         ca:
           name: authrealm-ldap-ca
@@ -180,9 +180,12 @@ An entry under `identityProviders` has the following fields:
 - `name` contains the unique name that is used to identify the identity provider.
 - `type` specifies the identity provider type and it is set to LDAP.
 - `mappingMethod` (add, claim or lookup) controls how mappings are established between this provider’s identities and User objects.
+- `ldapExtraConfigs` contains extra server configuration setting for LDAP, the key being the idp.name
+  * `baseDN` contains information to start the LDAP user search from. For example "cn=users,dc=example,dc=com"
+  * `filter` contains optional filter to apply when searching the directory. For example "(objectClass=person)"
 - `ldap` contains the LDAP specific configurations:
-  * `url` contains the LDAP search parameters to use.
-  * `bindDN` contains an optional DN to bind with during the search phase.
+  * `url` contains the LDAP host and optional port of the LDAP server
+  * `bindDN` contains DN for an application service account. The connector uses the bindDN and bindPW as credentials to search for users and groups. Not required if the LDAP server provides access for anonymous auth.
   * `bindPassword` contains reference to a secret by name containing a password to bind with during the search phase.
   * `ca` contains reference to the secret containing a trusted Root CA file - file name and format: "ca.crt"
 *Note*: If the server uses self-signed certificates, include files with names "tls.crt" and "tls.key" (representing client certificate and key) in the same secret
