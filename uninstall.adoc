@@ -9,7 +9,9 @@ The uninstall removes most operator components, excluding components such as cus
 == Prerequisite: Delete AuthRealm custom resources
 
 Before you uninstall the 
-identity configuration management for Kubernetes, you must delete all of the AuthRealm custom resources that are managed by the opearator. 
+identity configuration management for Kubernetes, you must delete all of the AuthRealm custom resources that are managed by the operator.
+
+Note: When a cluster's authentication is no longer managed by identity configuration management, either because you've deleted all AuthRealms that apply to the cluster or because the cluster no longer matches any Placement rules in your AuthRealms, the original oauth configuration that was in place before identity configuration management began managing the cluster's oauth will be restored. This is only true if the managed cluster is still attached to the hub cluster at the point that the managed cluster becomes no longer manged by identity configuration management. Should you need to manually restore the original OAuth, you can find the backup in the ConfigMap named `idp-oauth-original` in the managed cluster's namespace on the hub cluster.
 
 [#removing-a-identityconfiguration-instance-by-using-commands]
 == Removing resources by using commands
