@@ -136,8 +136,8 @@ An entry under `identityProviders` has the following fields:
 - `mappingMethod` (add, claim or lookup) controls how mappings are established between this provider’s identities and User objects.
 - `github` contains the GitHub specific configurations:
   * `clientID` contains the client ID of a registered GitHub OAuth application.
-  * `clientSecret` contains a reference to an OpenShift Container Platform Secret object containing the client secret issued by GitHub.
-  * `organizations` contains a list of organizations to authenticate the user against. This field can be left blank to skip authentication against specific GitHub organizations. If organizations are specified in the config then the user must be a member of at least one of the specified orgs. +
+  * `clientSecret` contains a reference to an OpenShift Container Platform Secret object containing the client secret issued by GitHub. 
+  * `organizations` contains a list of organizations to authenticate the user against (authentication against specific teams within GitHub organizations is currently not supported). This field can be left blank to skip authentication against specific GitHub organizations. If organizations are specified in the config then the user must be a member of at least one of the specified orgs. +
 *Note*: If the GitHub OAuth application is not owned by an organization specified in `organizations`, an organization owner must grant third-party access to use this option. This can be done in two ways:
     ** by the GitHub organization's administrator from the GitHub organization settings,
     ** or, during the first GitHub login when the user will be presented with a UI to explicitly request access to the GitHub organization. The request will flow to the GitHub organization's administrator for approval and the user will only be able to login after the request for access is approved.
