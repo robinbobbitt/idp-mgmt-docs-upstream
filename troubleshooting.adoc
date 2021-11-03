@@ -7,7 +7,23 @@
 You've created your AuthRealm and updated your managed cluster as appropriate such that it should match the Placement, but the new login option is not appearing on your managed cluster. Follow the steps below to determine the issue.
 
 . Wait several minutes. It takes time for the OpenShift authentication pods to restart and reflect the new configuration.
-. If the button does not appear after several minutes, run the following on the managed cluster to confirm the cluster OAuth configuration was propagated correctly from the hub: `oc get oauth cluster -oyaml` You should see an identity provider with a name matching your AuthRealm name and an issuer URL that reflects your hub cluster URL and routeSubDomain. If you do, continue to the next step. If not, TODO.
+. If the button does not appear after several minutes, run the following on the managed cluster to confirm the cluster OAuth configuration was propagated correctly from the hub: `oc get oauth cluster -oyaml` You should see an identity provider with a name matching your AuthRealm name and an issuer URL that reflects your hub cluster URL and routeSubDomain. If you do, continue to the next step. If not, check the following on the hub cluster: 
+* Check for a ManifestWork named **idp-oauth** in the managed cluster namespace.  
++
+[source,terminal]
+----
+oc get manifestworks idp-oauth -n <managed cluster namespace> -o yaml
+----
+And verify the status.condition.type:Applied has a status of **"True"**.  If the status is false, wait a minute or two and recheck.  If the ManifestWork does not exist, check the following on the hub cluster: 
+
+* Check the PlacementDecision in the AuthRealm namespace to be sure the managed cluster was properly selected as part of the Placement and ManagedClusterSet.
++
+[source,terminal]
+----
+oc get placementdecision -n <AuthRealm namespace> -o yaml
+----
+Check the status.decision list contains an entry for the managed cluster.  If not, verify the Placement, ManagedClusterSet and ManagedClusterSetBindings are properly configured to include the managed cluster.
+
 . From the OpenShift Container Platform console UI on the managed cluster, navigate to Administration->Cluster Settings->ClusterOperators. Check the Status of the `authentication` operator, and if it is not showing green Available, check the Message for an indication of the error.
 
 image::./images/authentication_operator_error.png["authentication operator error message indicates certificate error"]
