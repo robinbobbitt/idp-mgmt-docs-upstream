@@ -12,17 +12,17 @@ You must download copies of the packages to access them during the installation,
 [#disconnect-prerequisites]
 == Prerequisites 
 
-You must meet the following requirements before you install The identity configuration management for Kubernetes operator:
+You must meet the following requirements before you install the identity configuration management for Kubernetes operator:
 
-* Red Hat OpenShift Container Platform version 4.6 or later must be deployed in your environment, and you must be logged in with the command line interface (CLI). 
+* Red Hat OpenShift Container Platform version 4.8.12 or later must be deployed in your environment, and you must be logged in with the command line interface (CLI). 
 
 * You need access to the https://catalog.redhat.com/software/containers/search?p=1&application_categories_list=Container%20Platform%20%2F%20Management[catalog.redhat.com].
 +
-*Note:* For managing bare metal clusters, you must have OpenShift Container Platform version 4.6 or later.
+*Note:* For managing bare metal clusters, you must have OpenShift Container Platform version 4.8.12 or later.
 +
-See the https://access.redhat.com/documentation/en-us/openshift_container_platform/4.8/html/installing/index[OpenShift Container Platform version 4.8], https://docs.openshift.com/container-platform/4.6/welcome/index.html[OpenShift Container Platform version 4.6].
+See the https://access.redhat.com/documentation/en-us/openshift_container_platform/4.8/html/installing/index[OpenShift Container Platform version 4.8 documentation].
 
-* Your Red Hat OpenShift Container Platform CLI must be version 4.6 or later, and configured to run `oc` commands. See https://access.redhat.com/documentation/en-us/openshift_container_platform/4.8/html/cli_tools/openshift-cli-oc#cli-getting-started[Getting started with the CLI] for information about installing and configuring the Red Hat OpenShift CLI.
+* Your Red Hat OpenShift Container Platform CLI must be version 4.8 or later, and configured to run `oc` commands. See https://access.redhat.com/documentation/en-us/openshift_container_platform/4.8/html/cli_tools/openshift-cli-oc#cli-getting-started[Getting started with the CLI] for information about installing and configuring the Red Hat OpenShift CLI.
 * Your Red Hat OpenShift Container Platform permissions must allow you to create a namespace.
 * You must have a workstation with Internet connection to download the dependencies for the operator.
 
