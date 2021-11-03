@@ -1,0 +1,55 @@
+[#troubleshooting]
+= Troubleshooting
+
+[#login-button-missing]
+== New login option specified in AuthRealm is not appearing on the managed cluster
+
+You've created your AuthRealm and updated your managed cluster as appropriate such that it should match the Placement, but the new login option is not appearing on your managed cluster. Follow the steps below to determine the issue.
+
+. Wait several minutes. It takes time for the OpenShift authentication pods to restart and reflect the new configuration.
+. If the button does not appear after several minutes, run the following on the managed cluster to confirm the cluster OAuth configuration was propagated correctly from the hub: `oc get oauth cluster -oyaml` You should see an identity provider with a name matching your AuthRealm name and an issuer URL that reflects your hub cluster URL and routeSubDomain. If you do, continue to the next step. If not, TODO.
+. From the OpenShift Container Platform console UI on the managed cluster, navigate to Administration->Cluster Settings->ClusterOperators. Check the Status of the `authentication` operator, and if it is not showing green Available, check the Message for an indication of the error.
+image::./images/authentication_operator_error.png[]
+
+[#openshift-auth-error]
+== OpenShift authentication is failing
+
+The new login option is showing up on your managed cluster, but when you try to complete the authentication flow, it ends with an error from OpenShift that says "An authentication error has occurred". Follow the steps below to determine the issue.
+
+. Check the logs of the authentication operator by running the following on the managed cluster:
++
+[source,terminal]
+----
+oc get pods -n openshift-authentication
+oc logs <pod_name>
+----
++
+. If no errors are found, you may need to enable debug mode in the authentication operator:
++
+[source,terminal]
+----
+$ oc edit authentication.operator.openshift.io
+  ...
+  spec:
+    logLevel: Debug  <-- change from Normal to Debug
+  managementState: Managed
+----
++
+. Wait for the openshift-authentication pods to restart and then check the logs again:
++
+[source,terminal]
+----
+watch oc get pods -n openshift-authentication
+oc logs <pod_name>
+----
++
+
+Collisions with existing users and identities on the managed cluster can cause the "An authentication error has occurred" message. Consider whether your selected https://docs.openshift.com/container-platform/4.8/authentication/understanding-identity-provider.html#identity-provider-parameters_understanding-identity-provider[mapping method] in your AuthRealm is right for your situation. Also remember that when you delete a user from a managed cluster, you will also need to delete the identity for that user in order for that user to be created correctly again on future login attempts with a new identity provider:
++
+[source,terminal]
+----
+oc get identity
+oc delete <identity_name>
+----
++
+
