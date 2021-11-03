@@ -9,7 +9,8 @@ You've created your AuthRealm and updated your managed cluster as appropriate su
 . Wait several minutes. It takes time for the OpenShift authentication pods to restart and reflect the new configuration.
 . If the button does not appear after several minutes, run the following on the managed cluster to confirm the cluster OAuth configuration was propagated correctly from the hub: `oc get oauth cluster -oyaml` You should see an identity provider with a name matching your AuthRealm name and an issuer URL that reflects your hub cluster URL and routeSubDomain. If you do, continue to the next step. If not, TODO.
 . From the OpenShift Container Platform console UI on the managed cluster, navigate to Administration->Cluster Settings->ClusterOperators. Check the Status of the `authentication` operator, and if it is not showing green Available, check the Message for an indication of the error.
-image::./images/authentication_operator_error.png[]
+
+image::./images/authentication_operator_error.png["authentication operator error message indicates certificate error"]
 
 [#openshift-auth-error]
 == OpenShift authentication is failing
