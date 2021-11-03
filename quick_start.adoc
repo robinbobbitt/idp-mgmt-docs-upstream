@@ -188,7 +188,7 @@ spec:
             - mail
 ----
 
-[#Command line interface]
+[#command-line-interface]
 == Command line interface
 
 AuthRealm configuration can be created through the link:https://github.com/open-cluster-management/cm-cli[cm-cli].
