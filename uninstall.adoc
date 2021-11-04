@@ -37,8 +37,6 @@ When you use the RedHat OpenShift Container Platform console to uninstall, you r
 
 . In the OpenShift Container Platform console navigation, select *Operators* > *Installed Operators* > *identity configuration management for Kubernetes*.
 
-. Navigate to *Installed Operators*.
-
 . Remove the _identity configuration management for Kubernetes_ operator by selecting 
 the _Options_ menu and selecting *Uninstall operator*.
 
