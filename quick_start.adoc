@@ -245,7 +245,17 @@ An entry under `identityProviders` has the following fields:
   * `preferredUsername` is the list of attributes whose values should be used as the preferred username. LDAP standard login attribute is "uid"
   * `name` is the list of attributes whose values should be used as the display name. Optional. If unspecified, no display name is set for the identity. LDAP standard display name attribute is "cn"
   * `email` is the list of attributes whose values should be used as the email address. Optional. If unspecified, no email is set for the identity 
+
+  To create your AuthRealm, copy the sample yaml above and update as appropriate with your ldap configuration, preferred names, namespace, route subdomain, and mapping method. Then, run the following command on your hub cluster:
+
+[source,terminal]
 ----
+oc create -f <authrealm_file_name>.yaml
+----
+
+At this point, any managed cluster that matches your Placement should be updated with an OAuth configuration that leverages an OpenID identity provider to connect to the proxy server that identity configuration management has stood up under the covers. Allow several minutes for the new login button to appear on your managed cluster.
+You will be able to login with the ldap user. 
+
 
 [#command-line-interface]
 == Command line interface
@@ -275,7 +285,7 @@ authRealm:
   name:
   # The namespace where the authrealm must be created, can be override using the --namespace
   namespace:
-  # The strategy type, only dex is supported, can be override using --type
+  #The strategy type, only dex is supported, can be override using --type
   type: dex
   # The routeSubDomain to use, can be override using --route-sub-domain
   routeSubDomain:
