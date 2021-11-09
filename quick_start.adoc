@@ -74,6 +74,8 @@ spec:
   routeSubDomain: identitatem-devs
   type: dex
 ----
+The AuthRealm `name` becomes an identity provider name on each managed cluster to which the AuthRealm applies, and is therefore the label that will appear on the managed cluster OpenShift login button.
+
 The `identityProviders` list values directly correspond to OpenShift Container Platform's https://docs.openshift.com/container-platform/4.8/authentication/understanding-identity-provider.html[identity provider] configuration. Only GitHub and LDAP are supported in this Technology Preview. Take special note of the https://docs.openshift.com/container-platform/4.8/authentication/understanding-identity-provider.html#identity-provider-parameters_understanding-identity-provider[`mappingMethod`] field, which controls how mappings are established between the provider’s identities and User objects.
 
 The `placementRef` contains the name of the Placement custom resource located in the same namespace as the AuthRealm that will determine to which clusters this AuthRealm will apply.
@@ -256,6 +258,23 @@ oc create -f <authrealm_file_name>.yaml
 At this point, any managed cluster that matches your Placement should be updated with an OAuth configuration that leverages an OpenID identity provider to connect to the proxy server that identity configuration management has stood up under the covers. Allow several minutes for the new login button to appear on your managed cluster.
 You will be able to login with the ldap user. 
 
+
+[#byo-cert]
+== Using a custom certificate
+
+By default, identity configuration management stands up an OpenID Connect proxy service that leverages the hub cluster's default ingress certificate. You can instead utilize a custom certificate by adding the following two fields to the AuthRealm spec:
+
+[source,yaml]
+----
+spec:
+  certificatesSecretRef:
+    name: acme-cert
+  host: https://identitatem-devs.acme.com
+----
+
+Create a tls secret containing your custom certificate in the same namespace as your AuthRealm and provide the secret name in `certificatesSecretRef.name`. For `host`, specify the full URL of the domain you want created for the OpenID Connect proxy service, including the `https://` protocol.
+
+Note: When you specify a `host` URL, the `routeSubDomain` is used only for creating an OpenShift project on your hub cluster to hold resources pertaining to the AuthRealm. It is not reflected in the OpenID Connect proxy service issuer URL. 
 
 [#command-line-interface]
 == Command line interface

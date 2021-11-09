@@ -29,7 +29,7 @@ Check the status.decision list contains an entry for the managed cluster.  If no
 image::./images/authentication_operator_error.png["authentication operator error message indicates certificate error"]
 
 [#openshift-auth-error]
-== OpenShift authentication is failing
+== OpenShift authentication is failing with "An authentication error has occurred"
 
 The new login option is showing up on your managed cluster, but when you try to complete the authentication flow, it ends with an error from OpenShift that says "An authentication error has occurred". Follow the steps below to determine the issue.
 
@@ -70,3 +70,53 @@ oc delete <identity_name>
 ----
 +
 
+
+[#application-not-available]
+== OpenShift authentication is failing with "Application is not available"
+
+Reaching the "Application is not available" 503 error page after clicking on the OpenShift login button can be an indication of a number of problems. Following are troubleshooting steps you can try.
+
+[#github-callback-url]
+=== Check your GitHub OAuth app callback URL
+
+If you are using GitHub as your identity provider, and are able to successfully authenticate to GitHub, but your OpenShift login then ends with an "Application is not available" message, it is likely that you have an incorrect callback URL specified in your GitHub OAuth application. Review the callback URL in the browser address bar and confirm that it is your route subdomain specified in your AuthRealm (or the `host` if you are using a custom certificate).
+
+[#troubleshoot-dex-server]
+=== Check if the OpenID Connect proxy server is running correctly
+
+The OpenID Connect proxy server runs in the namespace `idp-mgmt-<AuthRealm.routeSubDomain>`. A DexServer custom resource is used by identity configuration management to configure and track this proxy server. From the `idp-mgmt-<AuthRealm.routeSubDomain>` OpenShift project on your hub cluster, run the following:
+[source,terminal]
+----
+$ oc get dexserver dex-server -ojson | jq -r '.status.conditions'
+[
+  {
+    "lastTransitionTime": "2021-11-04T20:30:35Z",
+    "message": "DexServer is applied",
+    "reason": "Applied",
+    "status": "True",
+    "type": "Applied"
+  },
+  {
+    "lastTransitionTime": "2021-11-05T12:03:19Z",
+    "message": "DexServer deployment is available",
+    "reason": "Available",
+    "status": "True",
+    "type": "Available"
+  }
+]
+
+----
+
+Confirm no issues are reported.
+
+Assuming your DexServer deployment is healthy, next check the ingress. Again from the `idp-mgmt-<AuthRealm.routeSubDomain>` OpenShift project on your hub cluster, run the following:
+[source,terminal]
+----
+$ oc get ingress dex-server
+NAME         CLASS    HOSTS                                     ADDRESS                              PORTS     AGE
+dex-server   <none>   yourRouteSubDomain.apps.clusterurl.com    router-default.apps.clusterurl.com   80, 443   17h
+----
+
+An empty ADDRESS column is an indication that your ingress has a problem. One possible issue if you are using a custom certificate is that your certificate secret was not set up correctly in the `idp-mgmt-<AuthRealm.routeSubDomain` namespace. Run `oc get secrets` and confirm you see an entry with the name you specified in `AuthRealm.certificatesSecretRef.name` and that it is of type `kubernetes.io/tls`.
+
+If the ingress is not found, an error message should be present in the DexServer custom resource status.
