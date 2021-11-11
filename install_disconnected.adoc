@@ -63,52 +63,6 @@ Follow these steps to install the identity configuration management for Kubernet
 +
 If you already have a mirror registry, you can configure and use your existing one.
 
-. *Note:* For bare metal only, you need to provide the certificate information for the disconnected registry in your `install-config.yaml` file. To access the image in a protected disconnected registry, you must provide the certificate information so the identity configuration management for Kubernetes operator can access the registry.
-
-.. Copy the certificate information from the registry.
-.. Open the `install-config.yaml` file in an editor.
-.. Find the entry for `additionalTrustBundle: |`.
-.. Add the certificate information after the `additionalTrustBundle` line. The resulting content should look similar to the following example:
-
-+
-[source,yaml]
-----
-additionalTrustBundle: |
-  -----BEGIN CERTIFICATE-----
-  certificate_content
-  -----END CERTIFICATE-----
-sshKey: >-
-----
-
-+ 
-. *Important:* Additional mirrors for disconnected image registries are needed if the following Governance policies are required:
-
-- Container Security Operator policy: The images are located in the source `registry.redhat.io/quay`.
-
-- Compliance operator policy: The images are located in the source `registry.redhat.io/compliance`
-
-- Gatekeeper operator policy: The images are located in the source `registry.redhat.io/rhacm2`
-
-+
-See the following example of mirrors lists for all three operators:
-
-+
-[source,yaml]
-----
-    - mirrors:
-      - <your_registry>/rhacm2
-      source: registry.redhat.io/rhacm2
-    - mirrors:
-      - <your_registry>/quay
-      source: registry.redhat.io/quay
-    - mirrors:
-      - <your_registry>/compliance
-      source: registry.redhat.io/compliance
-----
-
-. Save the `install-config.yaml` file.
-
-//TODO Revisit this when we have official mirror name
 . Create a YAML file that contains the `ImageContentSourcePolicy` with the name `idp-mgmt-config-policy.yaml`. *Note:* If you modify this on a running cluster, it causes a rolling restart of all nodes.
 +
 [source,yaml]
@@ -116,12 +70,12 @@ See the following example of mirrors lists for all three operators:
 apiVersion: operator.openshift.io/v1alpha1
 kind: ImageContentSourcePolicy
 metadata:
-  name: mce-repo
+  name: identity-config
 spec:
   repositoryDigestMirrors:
   - mirrors:
-    - mirror.registry.com:5000/idp-mgmt-config
-    source: registry.redhat.io/idp-mgmt-config
+    - mirror.registry.com:5000/identity-config
+    source: registry.redhat.io/identity-config
 ----
 
 . Apply the ImageContentSourcePolicy file by entering the following command:
