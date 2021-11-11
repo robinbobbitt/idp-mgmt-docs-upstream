@@ -8,6 +8,15 @@ You've created your AuthRealm and updated your managed cluster as appropriate su
 
 . Wait several minutes. It takes time for the OpenShift authentication pods to restart and reflect the new configuration.
 . If the button does not appear after several minutes, run the following on the managed cluster to confirm the cluster OAuth configuration was propagated correctly from the hub: `oc get oauth cluster -oyaml` You should see an identity provider with a name matching your AuthRealm name and an issuer URL that reflects your hub cluster URL and routeSubDomain. If you do, continue to the next step. If not, check the following on the hub cluster: 
+* Check the AuthRealm
++
+[source,terminal]
+----
+oc get authrealm <AuthRealm name> -n <AuthRealm namespace> -o yaml
+----
+And verify the status.condition.type:Applied has a status of **"True"**.  If the status is false, check the reason and message.
+Note: Applied **"True"** just mean the AuthRealm was successfully processeced but the controller and subsequent resources are created, it doesn't mean the managed cluster authentication system is successfully updated.
+
 * Check for a ManifestWork named **idp-oauth** in the managed cluster namespace.  
 +
 [source,terminal]
