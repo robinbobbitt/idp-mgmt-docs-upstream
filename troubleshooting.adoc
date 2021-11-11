@@ -129,3 +129,44 @@ dex-server   <none>   yourRouteSubDomain.apps.clusterurl.com    router-default.a
 An empty ADDRESS column is an indication that your ingress has a problem. One possible issue if you are using a custom certificate is that your certificate secret was not set up correctly in the `idp-mgmt-<AuthRealm.routeSubDomain` namespace. Run `oc get secrets` and confirm you see an entry with the name you specified in `AuthRealm.certificatesSecretRef.name` and that it is of type `kubernetes.io/tls`.
 
 If the ingress is not found, an error message should be present in the DexServer custom resource status.
+
+[#invalid-client-id]
+== OpenShift authentication fails with "Bad Request" "Invalid client_id"
+
+If after you press the OpenShift login button, you see a page displaying "Bad Request" and "Invalid client_id", there is an issue with the configuration for this managed cluster on the hub cluster.
+
+On the hub cluster, look for the dex client that should have been created under the covers for this managed cluster. Run the following on the hub cluster, substituting your value for routeSubDomain:
+[source,terminal]
+----
+$ oc get dexclients -n idp-mgmt-<routeSubDomain>
+NAME                                   AGE
+<managed_cluster>-<authrealm>          7m18s
+----
+You should see an entry for your managed cluster. If so, check the status to confirm the DexClient CR was successfully applied and an oauth2client was created on the Dex server.
+[source,terminal]
+----
+$ oc get dexclient  <managed_cluster>-<authrealm> -n idp-mgmt-<routeSubDomain> -ojson | jq -r '.status.conditions'
+[
+  {
+    "lastTransitionTime": "2021-11-11T14:54:48Z",
+    "message": "Dex client is created",
+    "reason": "Created",
+    "status": "True",
+    "type": "Applied"
+  },
+  {
+    "lastTransitionTime": "2021-11-11T14:54:48Z",
+    "message": "oauth2client is created",
+    "reason": "Created",
+    "status": "True",
+    "type": "OAuth2ClientCreated"
+  }
+]
+----
+You should see a status of "True" for both conditions. If not, review the errors.
+
+If you do not see a dex client for your managed cluster, check the operator logs for errors by running the following on the hub cluster:
+[source,terminal]
+----
+$ oc logs -l control-plane=controller-manager -n idp-mgmt-config
+----
