@@ -170,3 +170,47 @@ If you do not see a dex client for your managed cluster, check the operator logs
 ----
 $ oc logs -l control-plane=controller-manager -n idp-mgmt-config
 ----
+
+
+[#ldap-failures]
+== LDAP related issues
+
+=== Issues with setting up the OpenID Connect proxy server correctly with the LDAP connector
+
+If you do not see the new login option even after several minutes, it is possible that the OpenID Connect proxy server is not deployed correctly as it is unable to set up the LDAP connector based on the information provided in the AuthRealm CR. For instance, not specifying `ldapExtraConfigs.userSearch.baseDN` in the AuthRealm CR or missing to create the secret containing the `bindPassword` can prevent the OpenID Connect proxy server from being deployed correctly.
+
+. Refer to the <<troubleshoot-dex-server, step above>> to view the status information in the DexServer custom resource.
+
+. Check the logs of the dex server pod by running the following on the hub cluster, substituting your value for `routeSubDomain`:
+
+[source,terminal]
+----
+$ oc get pods -n idp-mgmt-<routeSubDomain>
+----
+Fetch logs from the pod retrieved in the step above for more information on the error:
+----
+$ oc logs <pod_name> -n idp-mgmt-<routeSubDomain>
+----
+
+*Example:*
+
+image::./images/log_missing_usersearch_basedn.png["Missing baseDN for LDAP user search preventing dex server from being set up correctly"]
+
+=== LDAP Login failures
+
+The new login option is showing up on your managed cluster, but when you try to complete the authentication flow via the <<ldap-login-ui,LDAP login UI>>, it ends with an error.
+
+[#ldap-login-ui]
+image::./images/ldap_login.png["LDAP login page"]
+
+==== Examples of errors that could occur during this flow:
+
+* Incorrect bind credentials used to authenticate with the LDAP server
+** Check that the correct bindDN and bindPassword was provided for the LDAP identity provider in the Authrealm CR.
++
+image::./images/invalid_bind_credentials.png["LDAP login page"]
+
+* Incorrect certificate for the LDAP server
+** Check that the correct certificate was provided in the secret that is referenced in the `ca` field  for the ldap identity provider in the Authrealm CR.
++
+image::./images/ldap_ca_error.png["LDAP login page"]
