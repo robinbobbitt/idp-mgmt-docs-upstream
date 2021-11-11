@@ -196,7 +196,7 @@ $ oc logs <pod_name> -n idp-mgmt-<routeSubDomain>
 
 image::./images/log_missing_usersearch_basedn.png["Missing baseDN for LDAP user search preventing dex server from being set up correctly"]
 
-=== LDAP Login failures
+=== LDAP login failures
 
 The new login option is showing up on your managed cluster, but when you try to complete the authentication flow via the <<ldap-login-ui,LDAP login UI>>, it ends with an error.
 
@@ -208,9 +208,9 @@ image::./images/ldap_login.png["LDAP login page"]
 * Incorrect bind credentials used to authenticate with the LDAP server
 ** Check that the correct bindDN and bindPassword was provided for the LDAP identity provider in the Authrealm CR.
 +
-image::./images/invalid_bind_credentials.png["LDAP login page"]
+image::./images/invalid_bind_credentials.png["Error - Invalid bind credentials"]
 
 * Incorrect certificate for the LDAP server
 ** Check that the correct certificate was provided in the secret that is referenced in the `ca` field  for the ldap identity provider in the Authrealm CR.
 +
-image::./images/ldap_ca_error.png["LDAP login page"]
+image::./images/ldap_ca_error.png["Error - Incorrect certificate for LDAP server"]
