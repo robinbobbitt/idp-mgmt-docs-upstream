@@ -206,11 +206,11 @@ image::./images/ldap_login.png["LDAP login page"]
 ==== Examples of errors that could occur during this flow:
 
 * Incorrect bind credentials used to authenticate with the LDAP server
-** Check that the correct bindDN and bindPassword was provided for the LDAP identity provider in the Authrealm CR.
+** Check that the correct bindDN and bindPassword was provided for the LDAP identity provider in the AuthRealm CR.
 +
 image::./images/invalid_bind_credentials.png["Error - Invalid bind credentials"]
 
 * Incorrect certificate for the LDAP server
-** Check that the correct certificate was provided in the secret that is referenced in the `ca` field  for the ldap identity provider in the Authrealm CR.
+** Check that the correct certificate was provided in the secret that is referenced in the `ca` field  for the ldap identity provider in the AuthRealm CR.
 +
 image::./images/ldap_ca_error.png["Error - Incorrect certificate for LDAP server"]
