@@ -177,7 +177,7 @@ $ oc logs -l control-plane=controller-manager -n idp-mgmt-config
 
 === Issues with setting up the OpenID Connect proxy server correctly with the LDAP connector
 
-If you do not see the new login option even after several minutes, it is possible that the OpenID Connect proxy server is not deployed correctly as it is unable to set up the LDAP connector based on the information provided in the AuthRealm CR. For instance, not specifying `ldapExtraConfigs.userSearch.baseDN` in the AuthRealm CR or missing to create the secret containing the `bindPassword` can prevent the OpenID Connect proxy server from being deployed correctly.
+If you do not see the new login option even after several minutes, it is possible that the OpenID Connect proxy server is not deployed correctly as it is unable to set up the LDAP connector based on the information provided in the AuthRealm CR. For instance, not specifying `ldapExtraConfigs.<idp-name>.baseDN` in the AuthRealm CR or missing to create the secret containing the `bindPassword` can prevent the OpenID Connect proxy server from being deployed correctly.
 
 . Refer to the <<troubleshoot-dex-server, step above>> to view the status information in the DexServer custom resource.
 
