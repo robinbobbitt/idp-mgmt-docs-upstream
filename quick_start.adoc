@@ -44,6 +44,11 @@ Now a placement can be created.  This will be used to determine which managed cl
 * Red Hat Advanced Cluster Management - https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.3/html/clusters/managedclustersets#placement-managed[using managedclustersets with placement]
 * Red Hat multicluster engine operator - https://open-cluster-management.github.io/mce-docs/quick_start.html#getting-started[creating and managing managedclustersets]
 
+[IMPORTANT]
+====
+The identity configuration management for Kubernetes Technology Preview does not yet utilize custom role definitions for controlling access to work with AuthRealms. Instead, it relies on the role-based access control implemented by multicluster engine and Advanced Cluster Management around ManagedClusterSets, ManagedClusterSetBindings, and Placements. AuthRealms must exist in a namespace containing a Placement, and the Placement leverages the ManagedClusterSets that are bound to that namespace. Access to namespaces with existing bound ManagedClusterSets and/or existing Placements should be managed accordingly.
+====
+
 
 [#creating-auth-realm]
 == Creating your AuthRealm
@@ -82,7 +87,10 @@ The `placementRef` contains the name of the Placement custom resource located in
 
 The `routeSubDomain` is used to form the Issuer URL of the intermediary OpenID connect server that is installed and configured automatically on the hub cluster by identity configuration management in order to achieve fleet-wide identity configuration. The managed clusters' cluster OAuth configurations connect to this OpenID connect server via the Issuer URL, rather than connecting to the desired identity provider directly.
 
-*Important:* `routeSubDomain` must be unique among all AuthRealms on the hub cluster. It must be a max of 54 characters. It must meet the requirements of a DNS subdomain and therefore must also contain only lowercase alphanumeric characters, '-' or '.', and start and end with an alphanumeric character. Once specified, the `routeSubDomain` must not be modified. If you need to change this value, delete the AuthRealm and start again. These rules will be enforced in a future version of the operator, and failure to comply will result in unexpected results with the technology preview. 
+[IMPORTANT]
+====
+`routeSubDomain` must be unique among all AuthRealms on the hub cluster. It must be a max of 54 characters. It must meet the requirements of a DNS subdomain and therefore must also contain only lowercase alphanumeric characters, '-' or '.', and start and end with an alphanumeric character. Once specified, the `routeSubDomain` must not be modified. If you need to change this value, delete the AuthRealm and start again. These rules will be enforced in a future version of the operator, and failure to comply will result in unexpected results with the technology preview. 
+====
 
 The `type` field must be set to `dex` for the Technology Preview. The Technology Preview leverages Dex under the covers as described above to achieve fleet-wide identity configuration.
 
