@@ -171,6 +171,17 @@ If you do not see a dex client for your managed cluster, check the operator logs
 $ oc logs -l control-plane=controller-manager -n idp-mgmt-config
 ----
 
+[#github-failures]
+== Github login failure
+
+=== User is not a member of the GitHub organization specified in the AuthRealm
+
+If the AuthRealm custom resource specifies one or more values in the `github.organizations` field, the user attempting login to the cluster via GitHub will be authenticated against the specified organization(s). If the user is not a member of at least one of the organizations specified in the AuthRealm, they will not be able to login. The error will appear as follows:
+
+image::./images/github_org_error.png["GitHub authentication error - user not in required org"]
+
+* Check that the user attempting login is a member of at least one of the GitHub organizations specified in the AuthRealm. 
+* If the GitHub OAuth application is not owned by an organization specified in `github.organizations`, an organization owner must grant third-party access to use this option. 
 
 [#ldap-failures]
 == LDAP related issues
