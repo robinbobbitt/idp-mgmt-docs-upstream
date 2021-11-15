@@ -54,7 +54,7 @@ For the hub cluster networking requirements, see the following table:
 | 
 
 | Outbound
-| OpenLDAP or Azure Active Directory managed domain. This is only required if you are using LDAP as an identity provider.
+| LDAP server (Example: OpenLDAP or Azure Active Directory managed domain). This is only required if you are using LDAP as an identity provider.
 | 
 
 | Inbound
