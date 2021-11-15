@@ -15,7 +15,7 @@ You've created your AuthRealm and updated your managed cluster as appropriate su
 oc get authrealm <AuthRealm name> -n <AuthRealm namespace> -o yaml
 ----
 And verify the status.condition.type:Applied has a status of **"True"**.  If the status is false, check the reason and message.
-Note: Applied **"True"** just mean the AuthRealm was successfully processeced but the controller and subsequent resources are created, it doesn't mean the managed cluster authentication system is successfully updated.
+Note: Applied **"True"** just mean the AuthRealm was successfully processed by the controller and subsequent resources are created; it doesn't mean the managed cluster authentication system is successfully updated.
 
 * Check for a ManifestWork named **idp-oauth** in the managed cluster namespace.  
 +
@@ -116,7 +116,7 @@ $ oc get dexserver dex-server -ojson | jq -r '.status.conditions'
 
 ----
 
-Confirm no issues are reported.
+Confirm no issues are reported. The type "Applied" indicates that the DexServer custom resource was successfully processed by the controller, and all related resources have been synchronized. The type "Available" reflects the status of the Dex server deploment pods.
 
 Assuming your DexServer deployment is healthy, next check the ingress. Again from the `idp-mgmt-<AuthRealm.routeSubDomain>` OpenShift project on your hub cluster, run the following:
 [source,terminal]
@@ -142,7 +142,7 @@ $ oc get dexclients -n idp-mgmt-<routeSubDomain>
 NAME                                   AGE
 <managed_cluster>-<authrealm>          7m18s
 ----
-You should see an entry for your managed cluster. If so, check the status to confirm the DexClient CR was successfully applied and an oauth2client was created on the Dex server.
+You should see an entry for your managed cluster. If so, check the status to confirm the DexClient custom resource was successfully applied and an oauth2client was created on the Dex server.
 [source,terminal]
 ----
 $ oc get dexclient  <managed_cluster>-<authrealm> -n idp-mgmt-<routeSubDomain> -ojson | jq -r '.status.conditions'
@@ -163,7 +163,7 @@ $ oc get dexclient  <managed_cluster>-<authrealm> -n idp-mgmt-<routeSubDomain> -
   }
 ]
 ----
-You should see a status of "True" for both conditions. If not, review the errors.
+You should see a status of "True" for both conditions. If not, review the errors. The type "Applied" indicates whether the controller has successfully processed the DexClient custom resource. The type "OAuth2ClientCreated" indicates whether an oauth2client was created on the Dex server for the managed cluster.
 
 If you do not see a dex client for your managed cluster, check the operator logs for errors by running the following on the hub cluster:
 [source,terminal]

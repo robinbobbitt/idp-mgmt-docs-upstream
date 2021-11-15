@@ -5,6 +5,7 @@
 * <<creating-auth-realm,Creating your AuthRealm>>
 * <<github-authentication,GitHub authentication>>
 * <<ldap-authentication,LDAP authentication>>
+* <<byo-cert,Using a custom certificate>>
 * <<command-line-interface,Command line interface>>
 
 
