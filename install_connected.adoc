@@ -96,10 +96,23 @@ identity configuration management for Kubernetes.
 *Note:* To upgrade to the next minor release, you must return to the _OperatorHub_ page and select a new channel for the more current release.
 
 . Select *Install* to apply your changes and create the operator. 
-
 +
 After the 
-identity configuration management for Kubernetes is created, the status for the operator is _Running_ on the _Installed Operators_ page. You can now use the services provided by the identity configuration management 
+identity configuration management for Kubernetes is created, the status for the operator is _Running_ on the _Installed Operators_ page. 
+
+.  After installing the operator, create an instance of the `IDPConfig` resource to install the necessary components that provide the IDP configuration management APIs. Here's an example:
++
+[source,terminal]
+----
+apiVersion: identityconfig.identitatem.io/v1alpha1
+kind: IDPConfig
+metadata:
+  name: idp-config
+  namespace: idp-mgmt-config
+spec:
+----
++
+You can now use the services provided by the identity configuration management 
 for Kubernetes. 
 
 [#installing-from-the-cli]
@@ -174,6 +187,17 @@ identity configuration management for Kubernetes on infrastructure nodes, the se
 oc apply -f <path-to-file>/<subscription>.yaml
 ----
 
+.  Create an instance of the `IDPConfig` resource to install the necessary components that provide the IDP configuration management APIs. Here's an example:
++
+[source,terminal]
+----
+apiVersion: identityconfig.identitatem.io/v1alpha1
+kind: IDPConfig
+metadata:
+  name: idp-config
+  namespace: idp-mgmt-config
+spec:
+----
 
 *Notes:*
 
