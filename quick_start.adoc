@@ -154,6 +154,7 @@ An entry under `identityProviders` has the following fields:
 - `github` contains the GitHub specific configurations:
   * `clientID` contains the client ID of a registered GitHub OAuth application.
   * `clientSecret` contains a reference to a secret object containing the client secret of a registered GitHub OAuth application.  Example secret:
+  
   [source,terminal]
   ----
   oc create secret generic <github-oauth-clientID-name> --from-literal=clientSecret=<github-oauth-clientID-secret>
