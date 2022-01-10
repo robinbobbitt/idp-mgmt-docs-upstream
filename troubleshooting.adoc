@@ -1,6 +1,32 @@
 [#troubleshooting]
 = Troubleshooting
 
+[#installer-crash-loop-back-off]
+== The installer pod CrashLoopBackOff
+
+You launched the IDP installation from the OperatorHub and the installation failed. A reason could be that Red Hat Advanced Cluster Management or Multicluster Engine is not installed.
+
+* Check the installer log
++
+[source,terminal]
+----
+oc get pods -n <idp-installation-namespace>
+----
+note the pod's name and then run
++
+[source,terminal]
+----
+oc logs -n <idp-installation-namespace> <pod-name>
+----
+A message similar to the following means the prerequise are not met.
++
+[source,terminal]
+----
+2022-01-10T14:17:21.962Z	ERROR	setup	unable to create controller	{"controller": "Installer", "error": "IDP prerequisites are not met: neither Red Hat Advanced Cluster Management or Multicluster Engine installation has been detected, the product Red Hat Advanced Cluster Management is not installed on this cluster\nthe product Multicluster Engine is not installed on this cluster", "errorVerbose": "neither Red Hat Advanced Cluster Management or Multicluster Engine installation has been detected, the product Red Hat Advanced Cluster Management is not installed on this cluster\nthe product Multicluster Engine is not installed on this cluster\nIDP prerequisites are not met"}
+----
+
+
+
 [#login-button-missing]
 == New login option specified in AuthRealm is not appearing on the managed cluster
 
