@@ -18,7 +18,7 @@ note the pod's name and then run
 ----
 oc logs -n <idp-installation-namespace> <pod-name>
 ----
-A message similar to the following means the prerequise are not met.
+A message similar to the following means the prerequisite are not met.
 +
 [source,terminal]
 ----
