@@ -290,6 +290,7 @@ spec:
 ----
 
 Create a tls secret containing your custom certificate in the same namespace as your AuthRealm and provide the secret name in `certificatesSecretRef.name`. For `host`, specify the full URL of the domain you want created for the OpenID Connect proxy service, including the `https://` protocol.
+
 When creating the tls secret, be sure to specify the `tls` type.  For example:
 
 [source,yaml]
