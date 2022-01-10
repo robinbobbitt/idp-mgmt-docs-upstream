@@ -52,7 +52,7 @@ The identity configuration management for Kubernetes Technology Preview does not
 
 [IMPORTANT]
 ====
-Before detaching cluster from hub, you will need to make sure managedcluster is no longer managed by identity configuration management. You can remove cluster from identity provider managegment either by removing cluster from matching placement or removing cluster from ManageClusterSet. You can remove cluster from matching placement by removing labels. If the cluster detached without being unmanaged from identity provider management, you will loose access to the cluster. 
+Before detaching a cluster from the hub, you will need to make sure the managed cluster is no longer managed by identity configuration management. You can remove the cluster from identity configuration management either by removing the cluster from the ManagedClusterSet, or by removing labels from the managed cluster as appropriate to no longer match the Placement. If the cluster is detached without first being unmanaged from identity provider management, you will lose access to the cluster.
 ====
 
 
