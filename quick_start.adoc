@@ -32,18 +32,18 @@ In order to add managed clusters to a managed cluster set, the managed clusters 
 Follow these instructions if managed clusters need to be brought under management by the hub cluster:
 
 * Red Hat Advanced Cluster Management - https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.4/html/clusters/managing-your-clusters#importing-a-target-managed-cluster-to-the-hub-cluster[Importing a target managed cluster to the hub cluster]
-* Red Hat multicluster engine operator - https://open-cluster-management.github.io/mce-docs/quick_start.html#getting-started[Importing a target managed cluster to the hub cluster]
+* Red Hat multicluster engine operator - https://stolostron.github.io/mce-docs/quick_start.html#getting-started[Importing a target managed cluster to the hub cluster]
 
 Once there are managed clusters, create a managed cluster set and managedclustersetbinding.  Then select the
 managed clusters that will be a part of the set:
 
 * Red Hat Advanced Cluster Management - https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.4/html/clusters/managing-your-clusters#managedclustersets[creating and managing managedclustersets]
-* Red Hat multicluster engine operator - https://open-cluster-management.github.io/mce-docs/quick_start.html#getting-started[creating and managing managedclustersets]
+* Red Hat multicluster engine operator - https://stolostron.github.io/mce-docs/quick_start.html#getting-started[creating and managing managedclustersets]
 
 Now a placement can be created.  This will be used to determine which managed clusters in the managedclusterset will have the identity configuration applied.  See:
 
 * Red Hat Advanced Cluster Management - https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.4/html/clusters/managing-your-clusters#placement-managed[using managedclustersets with placement]
-* Red Hat multicluster engine operator - https://open-cluster-management.github.io/mce-docs/quick_start.html#getting-started[creating and managing managedclustersets]
+* Red Hat multicluster engine operator - https://stolostron.github.io/mce-docs/quick_start.html#getting-started[creating and managing managedclustersets]
 
 [IMPORTANT]
 ====
@@ -301,7 +301,7 @@ Note: When you specify a `host` URL, the `routeSubDomain` is used only for creat
 [#command-line-interface]
 == Command line interface
 
-AuthRealm configuration can be created through the link:https://github.com/open-cluster-management/cm-cli[cm-cli].
+AuthRealm configuration can be created through the link:https://github.com/stolostron/cm-cli[cm-cli].
 
 [source,terminal]
 ----
