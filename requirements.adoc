@@ -13,7 +13,7 @@ Before you install identity configuration management for Kubernetes technology p
 [#supported-operating-systems-and-platforms]
 == Supported operating systems and platforms for hub clusters and managed clusters
 
-The identity configuration management tech preview requires the https://open-cluster-management.github.io/mce-docs/[multicluster engine for Kubernetes 1.0 Technology Preview] or https://www.redhat.com/en/technologies/management/advanced-cluster-management[Red Hat Advanced Cluster Management for Kubernetes 2.4].
+The identity configuration management tech preview requires the https://stolostron.github.io/mce-docs/[multicluster engine for Kubernetes 1.0 Technology Preview] or https://www.redhat.com/en/technologies/management/advanced-cluster-management[Red Hat Advanced Cluster Management for Kubernetes 2.4].
 
 Both the hub and managed clusters must be running OpenShift Container Platform at the levels supported by your chosen multicluster solution, multicluster engine or Advanced Cluster Management. Red Hat OpenShift Managed cloud services are not supported for this technology preview.
 

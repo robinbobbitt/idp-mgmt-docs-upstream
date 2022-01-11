@@ -36,7 +36,7 @@ Before you install identity configuration management for Kubernetes, see the fol
 
 * You must have an Internet connection to access the dependencies for the operator.
 
-* You must have either https://open-cluster-management.github.io/mce-docs/[multicluster engine for Kubernetes 1.0 Technology Preview] or https://www.redhat.com/en/technologies/management/advanced-cluster-management[Red Hat Advanced Cluster Management for Kubernetes 2.4] installed.
+* You must have either https://stolostron.github.io/mce-docs/[multicluster engine for Kubernetes 1.0 Technology Preview] or https://www.redhat.com/en/technologies/management/advanced-cluster-management[Red Hat Advanced Cluster Management for Kubernetes 2.4] installed.
 
 
 [#confirm-ocp-installation]
