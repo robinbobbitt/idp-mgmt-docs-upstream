@@ -5,6 +5,8 @@ You might need to install the identity configuration management for Kubernetes o
 
 You must download copies of the packages to access them during the installation, rather than accessing them directly from the network during the installation.
 
+NOTE: Upgrades are not supported from identity configuration management for Kubernetes v0.1.0. If you have v0.1.0 installed, you will need to uninstall it before installing v0.2.0.
+
 * <<disconnect-prerequisites,Prerequisites>>
 * <<confirm-ocp-installation-2,Confirm your OpenShift Container Platform installation>>
 * <<installing-on-infra-node,Preparing to install on infrastructure nodes>>
