@@ -19,6 +19,8 @@ Note: When a cluster's authentication is no longer managed by identity configura
 . If you have not already, ensure that your OpenShift Container Platform CLI is configured to run `oc` commands. See https://access.redhat.com/documentation/en-us/openshift_container_platform/4.8/html/cli_tools/openshift-cli-oc#cli-getting-started[Getting started with the OpenShift CLI] in the OpenShift Container Platform documentation for more information about how to configure the `oc` commands. 
 
 . Enter the following commands to locate and delete the identity configuration management `ClusterServiceVersion` in the namespace it is installed in:
++
+[source,terminal]
 ----
 ❯ oc get csv -A
 NAMESPACE            NAME                         DISPLAY                                                           VERSION   REPLACES   PHASE
@@ -27,7 +29,7 @@ idp-mgmt-config      idp-mgmt-operator.v1.0.0     identity configuration managem
 ❯ oc delete clusterserviceversion idp-mgmt-operator.v1.0.0 -n idp-mgmt-config
 ❯ oc delete sub idp-mgmt-operator -n idp-mgmt-config
 ----
-
++
 Note: The CSV version and operator namespace shown here may be different.
 
 [#deleting-the-components-by-using-the-console]
@@ -46,14 +48,13 @@ the _Options_ menu and selecting *Uninstall operator*.
 Once the identity configuration management operator has been removed, some manual cleanup is required to completely remove all artifacts of the Technology Preview.
 
 . Delete a remaining clusterrole
-
++
 Run the following command on the hub cluster: 
-
++
 [source,terminal]
 ----
 oc delete clusterrole dex-operator-dexsso
 ----
-
 
 [#troubleshoot-uninstall]
 == Troubleshooting Uninstall
@@ -61,7 +62,7 @@ oc delete clusterrole dex-operator-dexsso
 If the identity configuration management custom resource is not being removed, remove any potential remaining artifacts by running the clean-up script. 
 
 . Copy the following script into a file:
-
++
 [source,terminal]
 ----
 #!/bin/bash
@@ -71,3 +72,4 @@ oc delete crd strategies.identityconfig.identitatem.io
 oc delete crd dexclients.auth.identitatem.io
 oc delete crd dexserver.auth.identitatem.io
 ----
+
