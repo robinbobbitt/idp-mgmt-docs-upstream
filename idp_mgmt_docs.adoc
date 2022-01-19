@@ -5,7 +5,7 @@
 :toc: left
 :toclevels: 0
 :toc-title: Table of Contents
-v0.1.0: IDP
+v0.1.0: identity configuration management for Kubernetes
 
 [IMPORTANT]
 ====
