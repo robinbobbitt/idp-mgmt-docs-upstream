@@ -48,6 +48,8 @@ Once the identity configuration management operator has been removed, some manua
 . Delete a remaining clusterrole
 
 Run the following command on the hub cluster: 
+
+[source,terminal]
 ----
 oc delete clusterrole dex-operator-dexsso
 ----
@@ -59,7 +61,8 @@ oc delete clusterrole dex-operator-dexsso
 If the identity configuration management custom resource is not being removed, remove any potential remaining artifacts by running the clean-up script. 
 
 . Copy the following script into a file:
-+
+
+[source,terminal]
 ----
 #!/bin/bash
 oc delete crd authrealms.identityconfig.identitatem.io

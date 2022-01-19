@@ -316,16 +316,16 @@ cm create authrealm --values <values.yaml>
 ----
 
 . Fill the template form
-+
+
 The template can be retreived by running:
-+
+
 [source,terminal]
 ----
 cm create authrealm -h
 ----
-+
+
 Fill the template and save it as for example my-authrealm.yaml
-+
+
 [source,yaml]
 ----
 authRealm:
@@ -401,22 +401,22 @@ authRealm:
 
 . Create the authrealm
 .. Create directly
-+
+
 [source,terminal]
 ----
 cm create authrealm --values my-authrealm.yaml
 ----
 .. Create a file and then apply
-+
+
 Options --dry-run with --output-file can be used to get the rendered file
-+
+
 [source,terminal]
 ----
 cm create authrealm --values my-authrealm.yaml --dry-run --output-file my-authrealm-yamls.yaml
 ----
-+
+
 Then the my-authrealm-yamls.yaml can be applied using
-+
+
 [source,terminal]
 ----
 oc apply -f my-authrealm-yamls.yaml
