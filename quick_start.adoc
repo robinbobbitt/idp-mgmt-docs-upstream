@@ -398,8 +398,8 @@ authRealm:
       baseDN:
       filter:
 ----
-
 . Create the authrealm
++
 .. Create directly
 +
 [source,terminal]
@@ -421,3 +421,4 @@ Then the my-authrealm-yamls.yaml can be applied using
 ----
 oc apply -f my-authrealm-yamls.yaml
 ----
+
