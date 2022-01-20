@@ -52,7 +52,9 @@ The identity configuration management for Kubernetes Technology Preview does not
 
 [IMPORTANT]
 ====
-Before detaching a cluster from the hub, you will need to make sure the managed cluster is no longer managed by identity configuration management. You can remove the cluster from identity configuration management either by removing the cluster from the ManagedClusterSet, or by removing labels from the managed cluster as appropriate to no longer match the Placement. If the cluster is detached without first being unmanaged from identity provider management, you will lose access to the cluster.
+If you are using v0.1.0, before detaching a cluster from the hub, you must make sure the managed cluster is no longer managed by identity configuration management. You can remove the cluster from identity configuration management either by removing the cluster from the ManagedClusterSet, or by removing labels from the managed cluster as appropriate to no longer match the Placement. Once your cluster no longer matches the Placement of any AuthRealm, your original OAuth configuration should be restored on the cluster. If the cluster is detached without first being unmanaged from identity provider management, you will lose access to the cluster.
+
+If you are using v0.2.0 or higher, it is recommended that you follow the steps above to take the cluster out of identity configuration management prior to detaching the cluster from the hub. In this case, your original OAuth configuration should be restored for you on the managed cluster, and you can then detach the cluster from the hub. As an alternative, prior to detaching the managed cluster from the hub, you can copy your original OAuth from the ConfigMap named `idp-oauth-original` in the managed cluster's namespace on the hub cluster. After the cluster is completely detached from the hub cluster, manually edit the OAuth on the cluster you've just detached and refer to the contents of the idp-oauth-original ConfigMap to restore your original OAuth configuration. 
 ====
 
 
