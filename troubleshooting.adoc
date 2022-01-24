@@ -25,7 +25,38 @@ A message similar to the following means the prerequisite are not met.
 2022-01-10T14:17:21.962Z	ERROR	setup	unable to create controller	{"controller": "Installer", "error": "IDP prerequisites are not met: neither Red Hat Advanced Cluster Management or Multicluster Engine installation has been detected, the product Red Hat Advanced Cluster Management is not installed on this cluster\nthe product Multicluster Engine is not installed on this cluster", "errorVerbose": "neither Red Hat Advanced Cluster Management or Multicluster Engine installation has been detected, the product Red Hat Advanced Cluster Management is not installed on this cluster\nthe product Multicluster Engine is not installed on this cluster\nIDP prerequisites are not met"}
 ----
 
+[#Error-on-operator-page]
+== Error appears on operator page after installing through OperatorHub 
 
+After instaling "identity configuration management", the "operator page" shows a 404 error.
+
+* Check the installer log
++
+[source,terminal]
+----
+oc get pods -n <idp-installation-namespace>
+----
+note the pod's name and then run
++
+[source,terminal]
+----
+oc logs -n <idp-installation-namespace> <pod-name>
+----
+A message similar to the following means a preview installation wasn't correctly cleaned.
++
+[source,terminal]
+----
+2022-01-23T23:32:57.111Z	ERROR	controller.idpconfig	Reconciler error	{"reconciler group": "identityconfig.identitatem.io", "reconciler kind": "IDPConfig", "name": "idp-config", "namespace": "idp-mgmt-config", "error": "\"idp-mgmt-operator/leader_election_role_binding.yaml\" (string): RoleBinding.rbac.authorization.k8s.io \"idp-mgmt-operator-leader-election-rolebinding\" is invalid: roleRef: Invalid value: rbac.RoleRef{APIGroup:\"rbac.authorization.k8s.io\", Kind:\"Role\", Name:\"leader-election-operator-role\"}: cannot change roleRef", "errorVerbose": "\"idp-mgmt-operator/leader_election_role_binding.yaml\" (string): RoleBinding.rbac.authorization.k8s.io \"idp-mgmt-operator-leader-election-rolebinding\" is invalid: roleRef: Invalid value: rbac.RoleRef{APIGroup:\"rbac.authorization.k8s.io\", Kind:\"Role\", Name:\"leader-election-operator-role\"}: cannot change roleRef\ngithub.com/identitatem/idp-mgmt-operator/controllers/installer.(*IDPConfigReconciler).processIDPConfigCreation\n\t/remote-source/app/controllers/installer/installer_controller.go:168\ngithub.com/identitatem/idp-mgmt-operator/controllers/installer.(*IDPConfigReconciler).Reconcile\n\t/remote-source/app/controllers/installer/installer_controller.go:126\nsigs.k8s.io/controller-runtime/pkg/internal/controller.(*Controller).reconcileHandler\n\t/remote-source/deps/gomod/pkg/mod/sigs.k8s.io/controller-runtime@v0.9.7/pkg/internal/controller/controller.go:298\nsigs.k8s.io/controller-runtime/pkg/internal/controller.(*Controller).processNextWorkItem\n\t/remote-source/deps/gomod/pkg/mod/sigs.k8s.io/controller-runtime@v0.9.7/pkg/internal/controller/controller.go:253\nsigs.k8s.io/controller-runtime/pkg/internal/controller.(*Controller).Start.func2.2\n\t/remote-source/deps/gomod/pkg/mod/sigs.k8s.io/controller-runtime@v0.9.7/pkg/internal/controller/controller.go:214\nruntime.goexit\n\t/usr/lib/golang/src/runtime/asm_amd64.s:1581"}
+----
+
+* Clean the RoleBinding
++
+[source,terminal]
+----
+oc delete rolebinding idp-mgmt-operator-leader-election-rolebinding -n <idp-installation-namespace>
+----
++
+Once the deletion done, reinstall the "identity configuration management" again.
 
 [#login-button-missing]
 == New login option specified in AuthRealm is not appearing on the managed cluster
