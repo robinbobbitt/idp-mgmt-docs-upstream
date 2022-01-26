@@ -17,7 +17,7 @@ The identity configuration management tech preview requires the https://stolostr
 
 Both the hub and managed clusters must be running OpenShift Container Platform at the levels supported by your chosen multicluster solution, multicluster engine or Advanced Cluster Management. Red Hat OpenShift Managed cloud services are not supported for this technology preview.
 
-*Note:* Only OpenShift Container Platform 4.8 is supported for the hub, a minimum of 4.8.12 is required due to https://bugzilla.redhat.com/show_bug.cgi?id=1969902[Bugzilla 1969902]. OpenShift Container Platform 4.9 is not currently supported. 
+*Note:* Only OpenShift Container Platform 4.9 or 4.8.12 and higher is supported for the hub.  For 4.8, a minimum of 4.8.12 is required due to https://bugzilla.redhat.com/show_bug.cgi?id=1969902[Bugzilla 1969902]. 
 
 [#sizing-recommendations]
 == Sizing recommendations
@@ -32,7 +32,7 @@ If you are using Advanced Cluster Management, follow the RHACM sizing requiremen
 [#openid-server-certificate]
 === Securing OAuth requests to the OpenID Connect identity provider
 
-The identity configuration management operator instantiates one or more OpenID Connect identity providers under the covers to enable fleet-wide authentication. OAuth requests from the managed clusters to these identity providers must be secured using valid, signed certificates. This can be accomplished by https://docs.openshift.com/container-platform/4.8/security/certificates/replacing-default-ingress-certificate.html#replacing-default-ingress[replacing the default ingress certificate] on the hub cluster or by providing a certicate in an AuthRealm custom resource. 
+The identity configuration management operator instantiates one or more OpenID Connect identity providers under the covers to enable fleet-wide authentication. OAuth requests from the managed clusters to these identity providers must be secured using valid, signed certificates. This can be accomplished by https://docs.openshift.com/container-platform/4.8/security/certificates/replacing-default-ingress-certificate.html#replacing-default-ingress[replacing the default ingress certificate] on the hub cluster or by providing a certicate in an AuthRealm custom resource.
 // TODO: Add link to directions for specifying cert in AuthRealm CRD
 
 
@@ -51,11 +51,11 @@ For the hub cluster networking requirements, see the following table:
 
 | Outbound
 | GitHub or GitHub Enterprise API. This is only required if you are using GitHub as an identity provider.
-| 
+|
 
 | Outbound
 | LDAP server (Example: OpenLDAP or Azure Active Directory managed domain). This is only required if you are using LDAP as an identity provider.
-| 
+|
 
 | Inbound
 | The OpenID Connect issuer from the managed cluster.
@@ -76,6 +76,3 @@ For the managed cluster networking requirements, see the following table:
 | 443
 
 |===
-
-
-

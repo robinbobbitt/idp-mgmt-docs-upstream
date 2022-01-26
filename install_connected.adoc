@@ -27,11 +27,9 @@ Before you install identity configuration management for Kubernetes, see the fol
 
 * You need access to the https://catalog.redhat.com/software/containers/search?p=1&application_categories_list=Container%20Platform%20%2F%20Management[catalog.redhat.com].
 
-* OpenShift Container Platform version 4.8.12, or later, due to https://bugzilla.redhat.com/show_bug.cgi?id=1969902[Bugzilla 1969902], must be deployed in your environment, and you must be logged into with the OpenShift Container Platform CLI. See the following install documentation for OpenShift Container Platform:
+* OpenShift Container Platform version 4.9 or 4.8.12 and higher.  For 4.8, a minimum of 4.8.12 is required, due to https://bugzilla.redhat.com/show_bug.cgi?id=1969902[Bugzilla 1969902], must be deployed in your environment, and you must be logged into with the OpenShift Container Platform CLI. See the following install documentation for OpenShift Container Platform:
 
   - https://access.redhat.com/documentation/en-us/openshift_container_platform/4.8/html/installing/index[OpenShift Container Platform version 4.8]
-
-* OpenShift Container Platform version 4.9 is not currently supported.
 
 * Your OpenShift Container Platform command line interface (CLI) must be configured to run `oc` commands. See https://access.redhat.com/documentation/en-us/openshift_container_platform/4.8/html/cli_tools/openshift-cli-oc#cli-getting-started[Getting started with the CLI] for information about installing and configuring the OpenShift Container Platform CLI.
 
