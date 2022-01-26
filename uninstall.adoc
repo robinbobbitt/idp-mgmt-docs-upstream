@@ -75,6 +75,6 @@ oc delete crd authrealms.identityconfig.identitatem.io
 oc delete crd clusteroauths.identityconfig.identitatem.io
 oc delete crd strategies.identityconfig.identitatem.io
 oc delete crd dexclients.auth.identitatem.io
-oc delete crd dexserver.auth.identitatem.io
+oc delete crd dexservers.auth.identitatem.io
 ----
 
