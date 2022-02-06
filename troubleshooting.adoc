@@ -10,13 +10,7 @@ You launched the IDP installation from the OperatorHub and the installation fail
 +
 [source,terminal]
 ----
-oc get pods -n <idp-installation-namespace>
-----
-note the pod's name and then run
-+
-[source,terminal]
-----
-oc logs -n <idp-installation-namespace> <pod-name>
+oc logs -l control-plane=controller-manager -n <idp-installation-namespace> 
 ----
 A message similar to the following means the prerequisite are not met.
 +
@@ -34,13 +28,7 @@ After instaling "identity configuration management", the "operator page" shows a
 +
 [source,terminal]
 ----
-oc get pods -n <idp-installation-namespace>
-----
-note the pod's name and then run
-+
-[source,terminal]
-----
-oc logs -n <idp-installation-namespace> <pod-name>
+oc logs -l control-plane=controller-manager -n <idp-installation-namespace>
 ----
 A message similar to the following means a preview installation wasn't correctly cleaned.
 +
@@ -225,7 +213,7 @@ You should see a status of "True" for both conditions. If not, review the errors
 If you do not see a dex client for your managed cluster, check the operator logs for errors by running the following on the hub cluster:
 [source,terminal]
 ----
-$ oc logs -l control-plane=controller-manager -n idp-mgmt-config
+$ oc logs -l control-plane=idp-mgmt-operator-manager -n idp-mgmt-config
 ----
 
 [#github-failures]
@@ -251,13 +239,9 @@ If you do not see the new login option even after several minutes, it is possibl
 
 . Check the logs of the dex server pod by running the following on the hub cluster, substituting your value for `routeSubDomain`:
 
-[source,terminal]
+Fetch logs from the pod for more information on the error:
 ----
-$ oc get pods -n idp-mgmt-<routeSubDomain>
-----
-Fetch logs from the pod retrieved in the step above for more information on the error:
-----
-$ oc logs <pod_name> -n idp-mgmt-<routeSubDomain>
+$ oc logs -l control-plane=dex-server -n idp-mgmt-<routeSubDomain>
 ----
 
 *Example:*
