@@ -230,10 +230,9 @@ image::./images/github_org_error.png["GitHub authentication error - user not in 
 
 === Internal Server Error: missing access_token
 
-If after you press the OpenShift login button, you see a page displaying "Internal Server Error" and "Failed to authenticate: github: failed to get token: oauth2: server response missing access_token", you likely have an invalid GitHub OAuth client id and secret in your AuthRealm. Review your AuthRealm CR `github.clientID` and `github.clientSecret` fields, and ensure the base64-encoded client secret is correct by running the following:
+If after you press the OpenShift login button, you see a page displaying "Internal Server Error" and "Failed to authenticate: github: failed to get token: oauth2: server response missing access_token", you likely have an invalid GitHub OAuth client id and secret in your AuthRealm. Review your AuthRealm CR `spec.identityProviders.github.clientSecret` and `spec.identityProviders.github.clientSecret` fields, and ensure the base64-encoded client secret referenced in `spec.identityProviders.github.clientSecret` is correct by running the following:
 [source,terminal]
 ----
-$ oc get AuthRealm <your_authrealm_name> -n <your_authrealm_namespace> -ojson | jq -r '.spec.identityProviders[0].github'
 $ oc get secret <your_secret_name> -n <your_authrealm_namespace> -ojson | jq -r '.data.clientSecret' | base64 -d
 ----
 You can match the trailing 8 characters of the base64-decoded secret with the Client secrets listed on your GitHub OAuth page. GitHub also indicates when the secret was last used, which can be a clue as to whether your client secret has been applied successfully. 
